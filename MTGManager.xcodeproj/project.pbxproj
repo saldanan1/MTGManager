@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15229A1D22E74F9D00DA9C42 /* commentedCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15229A1C22E74F9D00DA9C42 /* commentedCode.swift */; };
+		15229A1F22E8936500DA9C42 /* LifeViewController3Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */; };
+		1581438E22E3F65C00D62EA3 /* LifeViewController2Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */; };
 		159BF3EB22E204EB009CD3BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF3EA22E204EB009CD3BA /* AppDelegate.swift */; };
 		159BF3ED22E204EB009CD3BA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF3EC22E204EB009CD3BA /* ViewController.swift */; };
 		159BF3F022E204EB009CD3BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 159BF3EE22E204EB009CD3BA /* Main.storyboard */; };
@@ -14,6 +17,8 @@
 		159BF3F522E204ED009CD3BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 159BF3F322E204ED009CD3BA /* LaunchScreen.storyboard */; };
 		159BF40022E204ED009CD3BA /* MTGManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF3FF22E204ED009CD3BA /* MTGManagerTests.swift */; };
 		159BF40B22E204ED009CD3BA /* MTGManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF40A22E204ED009CD3BA /* MTGManagerUITests.swift */; };
+		15AF0B182316F4A400A37B8A /* LifeViewController4Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */; };
+		15AF0B1A2316FECF00A37B8A /* LifeViewController5Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15229A1C22E74F9D00DA9C42 /* commentedCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentedCode.swift; sourceTree = "<group>"; };
+		15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController3Players.swift; sourceTree = "<group>"; };
+		1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController2Players.swift; sourceTree = "<group>"; };
 		159BF3E722E204EB009CD3BA /* MTGManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTGManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		159BF3EA22E204EB009CD3BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		159BF3EC22E204EB009CD3BA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +55,8 @@
 		159BF40622E204ED009CD3BA /* MTGManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTGManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		159BF40A22E204ED009CD3BA /* MTGManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTGManagerUITests.swift; sourceTree = "<group>"; };
 		159BF40C22E204ED009CD3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController4Players.swift; sourceTree = "<group>"; };
+		15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController5Players.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +109,15 @@
 			children = (
 				159BF3EA22E204EB009CD3BA /* AppDelegate.swift */,
 				159BF3EC22E204EB009CD3BA /* ViewController.swift */,
+				1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */,
+				15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */,
+				15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */,
+				15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */,
 				159BF3EE22E204EB009CD3BA /* Main.storyboard */,
 				159BF3F122E204ED009CD3BA /* Assets.xcassets */,
 				159BF3F322E204ED009CD3BA /* LaunchScreen.storyboard */,
 				159BF3F622E204ED009CD3BA /* Info.plist */,
+				15229A1C22E74F9D00DA9C42 /* commentedCode.swift */,
 			);
 			path = MTGManager;
 			sourceTree = "<group>";
@@ -257,7 +272,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				159BF3ED22E204EB009CD3BA /* ViewController.swift in Sources */,
+				15229A1F22E8936500DA9C42 /* LifeViewController3Players.swift in Sources */,
+				15AF0B182316F4A400A37B8A /* LifeViewController4Players.swift in Sources */,
+				15229A1D22E74F9D00DA9C42 /* commentedCode.swift in Sources */,
 				159BF3EB22E204EB009CD3BA /* AppDelegate.swift in Sources */,
+				15AF0B1A2316FECF00A37B8A /* LifeViewController5Players.swift in Sources */,
+				1581438E22E3F65C00D62EA3 /* LifeViewController2Players.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
