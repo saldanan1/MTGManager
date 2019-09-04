@@ -15,6 +15,7 @@ class LifeViewController2Players: UIViewController{
     var lifeTotalT: Int!
     var lifeTotalP1: Int!
     var lifeTotalP2: Int!
+    
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
     var customYellow: UIColor! = UIColor(red: 1, green: 181/255, blue: 49/255, alpha: 1)
@@ -47,6 +48,14 @@ class LifeViewController2Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: "Down Tick",playerNumber: "Player 1")
     }
     @objc func lifeChangePress(sender: UIButton) {
+        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
+            sender.backgroundColor = .black
+            sender.setTitle("", for: .normal)
+            sender.setTitleColor(.white, for: .normal)
+            sender.backgroundColor = .darkGray
+            self.view.bringSubviewToFront(self.Player1Label)
+            self.view.bringSubviewToFront(self.Player2Label)
+        })
         if (sender.titleLabel?.text == "Up Tick"){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
@@ -63,13 +72,6 @@ class LifeViewController2Players: UIViewController{
                 lifeTotalP2 -= 1
             }
         }
-        /*UIView.animate(withDuration: 0.075) {
-            sender.layer.backgroundColor =  self.customYellow.cgColor
-        }
-        UIView.animate(withDuration: 0.075) {
-            sender.layer.backgroundColor = UIColor.darkGray.cgColor
-        }*/
-        
         refreshLife()
     }
     func loadDividers(){
@@ -85,8 +87,8 @@ class LifeViewController2Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
-        self.view.addSubview(topView)
-        self.view.addSubview(bottomView)
+        //self.view.addSubview(topView)
+        //self.view.addSubview(bottomView)
         self.view.addSubview(sideView)
     }
     func loadBackButton(){

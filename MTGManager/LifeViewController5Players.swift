@@ -10,12 +10,15 @@ import UIKit
 
 class LifeViewController5Players: UIViewController{
     var lifeTotalT: Int!
+    
     var lifeTotalP1: Int!
     var lifeTotalP2: Int!
     var lifeTotalP3: Int!
     var lifeTotalP4: Int!
     var lifeTotalP5: Int!
-    var customYellow: UIColor! = UIColor(red: 1, green: 181/255, blue: 49/255, alpha: 1)
+    
+    var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var labelColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -40,7 +43,7 @@ class LifeViewController5Players: UIViewController{
     }
     func manageLifeChangeButtons(){
         //player 1 (right side, top life) down tick
-        loadChangeLifeTotalButtons(cgX: (view.frame.width/2), cgY: (view.frame.height/6), cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 1")
+        loadChangeLifeTotalButtons(cgX: (view.frame.width/2), cgY: (view.frame.height/6), cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Down Tick", playerNumber: "Player 1")
         //player 1 (right side, top life) up tick
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: (view.frame.height/6), buttonName: "Up Tick", playerNumber: "Player 1")
         
@@ -65,6 +68,17 @@ class LifeViewController5Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Up Tick", playerNumber: "Player 5")
     }
     @objc func lifeChangePress(sender: UIButton) {
+        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
+            sender.backgroundColor = .black
+            sender.setTitle("", for: .normal)
+            sender.setTitleColor(.white, for: .normal)
+            sender.backgroundColor = .darkGray
+            self.view.bringSubviewToFront(self.Player1Label)
+            self.view.bringSubviewToFront(self.Player2Label)
+            self.view.bringSubviewToFront(self.Player3Label)
+            self.view.bringSubviewToFront(self.Player4Label)
+            self.view.bringSubviewToFront(self.Player5Label)
+        })
         if (sender.titleLabel?.text == "Up Tick"){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
@@ -138,18 +152,23 @@ class LifeViewController5Players: UIViewController{
         lifeTotalP4 = lifeTotalT
         lifeTotalP5 = lifeTotalT
         
+        Player1Label.textColor = labelColor;
         Player1Label.text = String(lifeTotalP1)
         Player1Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
 
+        Player2Label.textColor = labelColor;
         Player2Label.text = String(lifeTotalP2)
         Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
         
+        Player3Label.textColor = labelColor;
         Player3Label.text = String(lifeTotalP3)
         Player3Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
         
+        Player4Label.textColor = labelColor;
         Player4Label.text = String(lifeTotalP4)
         Player4Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
         
+        Player5Label.textColor = labelColor;
         Player5Label.text = String(lifeTotalP5)
         Player5Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
     }
@@ -179,8 +198,8 @@ class LifeViewController5Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
-        self.view.addSubview(topView)
-        self.view.addSubview(bottomView)
+        //self.view.addSubview(topView)
+        //self.view.addSubview(bottomView)
         self.view.addSubview(leftSideView)
         self.view.addSubview(rightSideFirstView)
         self.view.addSubview(rightSideSecondView)

@@ -56,6 +56,16 @@ class LifeViewController4Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Up Tick", playerNumber: "Player 4")
     }
     @objc func lifeChangePress(sender: UIButton) {
+        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
+            sender.backgroundColor = .black
+            sender.setTitle("", for: .normal)
+            sender.setTitleColor(.white, for: .normal)
+            sender.backgroundColor = .darkGray
+            self.view.bringSubviewToFront(self.Player1Label)
+            self.view.bringSubviewToFront(self.Player2Label)
+            self.view.bringSubviewToFront(self.Player3Label)
+            self.view.bringSubviewToFront(self.Player4Label)
+        })
         if (sender.titleLabel?.text == "Up Tick"){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
@@ -154,8 +164,8 @@ class LifeViewController4Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
-        self.view.addSubview(topView)
-        self.view.addSubview(bottomView)
+        //self.view.addSubview(topView)
+        //self.view.addSubview(bottomView)
         self.view.addSubview(fullSideView)
         self.view.addSubview(middleView)
     }

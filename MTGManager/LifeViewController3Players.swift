@@ -13,7 +13,9 @@ class LifeViewController3Players: UIViewController{
     var lifeTotalP1: Int!
     var lifeTotalP2: Int!
     var lifeTotalP3: Int!
+    
     var customYellow: UIColor! = UIColor(red: 1, green: 181/255, blue: 49/255, alpha: 1)
+    
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
     @IBOutlet weak var Player3Label: UILabel!
@@ -41,12 +43,18 @@ class LifeViewController3Players: UIViewController{
         
         Player1Label.text = String(lifeTotalP1)
         Player1Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
+        Player1Label.center = CGPoint(x: view.center.x/2, y: view.center.y)
+        Player1Label.textAlignment = .center
         
         Player2Label.text = String(lifeTotalP2)
         Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+        Player2Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height/4)
+        Player2Label.textAlignment = .center
         
         Player3Label.text = String(lifeTotalP3)
         Player3Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+        Player3Label.center = CGPoint(x: view.frame.width-view.frame.width/4, y: view.frame.height - view.frame.height/4)
+        Player3Label.textAlignment = .center
     }
     func manageLifeChangeButtons(){
         //player 1 (left side) down tick
@@ -65,6 +73,16 @@ class LifeViewController3Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 3")
     }
     @objc func lifeChangePress(sender: UIButton) {
+        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
+            sender.backgroundColor = .black
+            sender.setTitle("", for: .normal)
+            sender.setTitleColor(.white, for: .normal)
+            sender.backgroundColor = .darkGray
+            
+            self.view.bringSubviewToFront(self.Player1Label)
+            self.view.bringSubviewToFront(self.Player2Label)
+            self.view.bringSubviewToFront(self.Player3Label)
+        })
         if (sender.titleLabel?.text == "Up Tick"){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
@@ -124,7 +142,7 @@ class LifeViewController3Players: UIViewController{
         let middleView = UIView(frame: middleRect)
         middleView.backgroundColor = customYellow
         
-        let sideRect = CGRect(x: (view.frame.width/2), y: view.frame.height/2, width: (view.frame.width/2), height: 20)
+        let sideRect = CGRect(x: (view.frame.width/2), y: (view.frame.height/2)-10, width: (view.frame.width/2), height: 20)
         let sideView = UIView(frame: sideRect)
         sideView.backgroundColor = customYellow
         
@@ -136,8 +154,8 @@ class LifeViewController3Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
-        self.view.addSubview(topView)
-        self.view.addSubview(bottomView)
+        //self.view.addSubview(topView)
+        //self.view.addSubview(bottomView)
         self.view.addSubview(sideView)
         self.view.addSubview(middleView)
     }

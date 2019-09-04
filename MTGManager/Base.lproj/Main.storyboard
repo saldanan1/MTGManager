@@ -139,42 +139,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ptC-ce-XGC">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ptC-ce-XGC" userLabel="LabelView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cE8-pL-7V8">
-                                        <rect key="frame" x="55" y="370.33333333333331" width="139" height="71.666666666666686"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                        <color key="textColor" red="1" green="0.71026431140000001" blue="0.19069547940000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wab-uR-xu1">
-                                        <rect key="frame" x="181" y="143" width="139" height="71.666666666666686"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                        <color key="textColor" red="1" green="0.71026431140000001" blue="0.19069547940000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPY-fa-cYa" userLabel="Player3 Label">
-                                        <rect key="frame" x="181" y="567.33333333333337" width="139" height="71.666666666666629"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                        <color key="textColor" red="1" green="0.71026431140000001" blue="0.19069547940000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cE8-pL-7V8" secondAttribute="trailing" constant="20" symbolic="YES" id="FPQ-Si-Y3B"/>
-                                    <constraint firstAttribute="trailing" secondItem="KPY-fa-cYa" secondAttribute="trailing" constant="55" id="KUC-tm-uc7"/>
-                                    <constraint firstItem="Wab-uR-xu1" firstAttribute="top" secondItem="ptC-ce-XGC" secondAttribute="top" constant="143" id="Oje-70-RQA"/>
-                                    <constraint firstItem="cE8-pL-7V8" firstAttribute="leading" secondItem="ptC-ce-XGC" secondAttribute="leading" constant="55" id="RCn-pQ-v2e"/>
-                                    <constraint firstAttribute="bottom" secondItem="KPY-fa-cYa" secondAttribute="bottom" constant="173" id="Rm6-6q-u7W"/>
-                                    <constraint firstItem="cE8-pL-7V8" firstAttribute="centerY" secondItem="ptC-ce-XGC" secondAttribute="centerY" id="T2n-xa-Nne"/>
-                                    <constraint firstAttribute="trailing" secondItem="Wab-uR-xu1" secondAttribute="trailing" constant="55" id="apb-5P-Kjn"/>
-                                    <constraint firstItem="Wab-uR-xu1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KPY-fa-cYa" secondAttribute="leading" id="dhB-hw-Jn9"/>
-                                </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cE8-pL-7V8">
+                                <rect key="frame" x="118" y="370" width="139" height="71.666666666666686"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                                <color key="textColor" red="1" green="0.71026431140000001" blue="0.19069547940000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wab-uR-xu1">
+                                <rect key="frame" x="118" y="370" width="139" height="71.666666666666686"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                                <color key="textColor" red="1" green="0.71026431140000001" blue="0.19069547940000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPY-fa-cYa" userLabel="Player3 Label">
+                                <rect key="frame" x="118" y="370" width="139" height="71.666666666666629"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                                <color key="textColor" red="1" green="0.71026431140000001" blue="0.19069547940000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ptC-ce-XGC" secondAttribute="trailing" id="93s-A4-CW0"/>
                             <constraint firstItem="ptC-ce-XGC" firstAttribute="leading" secondItem="NFN-jf-GRE" secondAttribute="leading" id="j32-h9-016"/>
@@ -201,7 +192,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QyH-hs-adf">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QyH-hs-adf" userLabel="LabelView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HKB-Jl-4HE">
@@ -274,7 +265,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mV0-k8-Kq1">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mV0-k8-Kq1" userLabel="LabelView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEZ-I7-316">
@@ -312,7 +303,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ELr-Zs-815" secondAttribute="trailing" constant="55" id="4hQ-8i-9Cx"/>
                                     <constraint firstItem="lxa-ON-hbG" firstAttribute="top" secondItem="mV0-k8-Kq1" secondAttribute="top" constant="184" id="6MW-4U-oWv"/>
-                                    <constraint firstItem="TDg-ae-liN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lxa-ON-hbG" secondAttribute="trailing" symbolic="YES" id="Bxu-Os-wax"/>
+                                    <constraint firstItem="TDg-ae-liN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lxa-ON-hbG" secondAttribute="trailing" constant="8" symbolic="YES" id="Bxu-Os-wax"/>
                                     <constraint firstItem="lxa-ON-hbG" firstAttribute="leading" secondItem="mV0-k8-Kq1" secondAttribute="leading" constant="55" id="DcF-xa-i9T"/>
                                     <constraint firstItem="lxa-ON-hbG" firstAttribute="leading" secondItem="vEZ-I7-316" secondAttribute="leading" id="GOM-66-wKN"/>
                                     <constraint firstAttribute="trailing" secondItem="gOx-lM-HPp" secondAttribute="trailing" constant="55" id="Ogv-6L-Mte"/>
