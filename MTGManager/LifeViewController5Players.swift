@@ -10,6 +10,11 @@ import UIKit
 
 class LifeViewController5Players: UIViewController{
     var lifeTotalT: Int!
+    var lifeTotalP1: Int!
+    var lifeTotalP2: Int!
+    var lifeTotalP3: Int!
+    var lifeTotalP4: Int!
+    var lifeTotalP5: Int!
     var customYellow: UIColor! = UIColor(red: 1, green: 181/255, blue: 49/255, alpha: 1)
     
     @IBOutlet weak var Player1Label: UILabel!
@@ -20,14 +25,99 @@ class LifeViewController5Players: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        labelTransformAndAssign()
-        loadButtons()
+        manageLifeTotals()
+        manageLifeChangeButtons()
+        refreshLife()
         loadDividers()
+        loadBackButton()
+    }
+    func refreshLife(){
+        Player1Label.text = String(lifeTotalP1)
+        Player2Label.text = String(lifeTotalP2)
+        Player3Label.text = String(lifeTotalP3)
+        Player4Label.text = String(lifeTotalP4)
+        Player5Label.text = String(lifeTotalP5)
+    }
+    func manageLifeChangeButtons(){
+        //player 1 (right side, top life) down tick
+        loadChangeLifeTotalButtons(cgX: (view.frame.width/2), cgY: (view.frame.height/6), cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 1")
+        //player 1 (right side, top life) up tick
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: (view.frame.height/6), buttonName: "Up Tick", playerNumber: "Player 1")
+        
+        //player 2 (right side, middle life) down tick
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height/3, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Up Tick", playerNumber: "Player 2")
+        //player 2 (right side, middle life) up tick
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Down Tick", playerNumber: "Player 2")
+        
+        //player 3 (right side, bottom life) down tick
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height-(view.frame.height/3), cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Up Tick", playerNumber: "Player 3")
+        //player 3 (right side, bottom life) up tick
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/6, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Down Tick", playerNumber: "Player 3")
+        
+        //player 3 (left side, bottom life) down tick
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 4")
+        //player 3 (left side, bottom life) up tick
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Up Tick", playerNumber: "Player 4")
+        
+        //player 4 (left side, top life) down tick
+        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 5")
+        //player 4 (left side, top life) up tick
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Up Tick", playerNumber: "Player 5")
+    }
+    @objc func lifeChangePress(sender: UIButton) {
+        if (sender.titleLabel?.text == "Up Tick"){
+            if (sender.restorationIdentifier == "Player 1"){
+                lifeTotalP1 += 1
+            }
+            else if (sender.restorationIdentifier == "Player 2"){
+                lifeTotalP2 += 1
+            }
+            else if (sender.restorationIdentifier == "Player 3"){
+                lifeTotalP3 += 1
+            }
+            else if (sender.restorationIdentifier == "Player 4"){
+                lifeTotalP4 += 1
+            }
+            else {
+                lifeTotalP5 += 1
+            }
+        }
+        else if (sender.titleLabel?.text == "Down Tick"){
+            if (sender.restorationIdentifier == "Player 1"){
+                lifeTotalP1 -= 1
+            }
+            else if (sender.restorationIdentifier == "Player 2"){
+                lifeTotalP2 -= 1
+            }
+            else if (sender.restorationIdentifier == "Player 3"){
+                lifeTotalP3 -= 1
+            }
+            else if (sender.restorationIdentifier == "Player 4"){
+                lifeTotalP4 -= 1
+            }
+            else {
+                lifeTotalP5 -= 1
+            }
+        }
+        refreshLife()
+    }
+    func loadChangeLifeTotalButtons
+        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: String, playerNumber: String){
+        
+        let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
+        
+        let genericButton = UIButton(frame: genericRect)
+        genericButton.setTitle(buttonName, for: .normal)
+        genericButton.restorationIdentifier = playerNumber
+        genericButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
+        genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)
+        
+        self.view.addSubview(genericButton)
     }
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    func loadButtons(){
+    func loadBackButton(){
         let someRect = CGRect(x: 30, y: 30, width: 40, height: 40)
         let buttonView = UIView(frame: someRect)
         
@@ -41,20 +131,26 @@ class LifeViewController5Players: UIViewController{
         self.view.addSubview(buttonView)
     }
     
-    func labelTransformAndAssign(){
-        Player1Label.text = String(lifeTotalT)
-        Player1Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+    func manageLifeTotals(){
+        lifeTotalP1 = lifeTotalT
+        lifeTotalP2 = lifeTotalT
+        lifeTotalP3 = lifeTotalT
+        lifeTotalP4 = lifeTotalT
+        lifeTotalP5 = lifeTotalT
         
-        Player2Label.text = String(lifeTotalT)
+        Player1Label.text = String(lifeTotalP1)
+        Player1Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+
+        Player2Label.text = String(lifeTotalP2)
         Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
         
-        Player3Label.text = String(lifeTotalT)
+        Player3Label.text = String(lifeTotalP3)
         Player3Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
         
-        Player4Label.text = String(lifeTotalT)
+        Player4Label.text = String(lifeTotalP4)
         Player4Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
         
-        Player5Label.text = String(lifeTotalT)
+        Player5Label.text = String(lifeTotalP5)
         Player5Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
     }
     
