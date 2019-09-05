@@ -50,11 +50,23 @@ class LifeViewController5Players: UIViewController{
         
         holderTextColor = textColor
         
+        for case let button as UIButton in self.view.subviews {
+            if (button.restorationIdentifier != "settings"){
+                button.backgroundColor = backgroundColor
+            }
+        }
+        
         Player1Label.textColor = holderTextColor;
         Player2Label.textColor = holderTextColor;
         Player3Label.textColor = holderTextColor;
         Player4Label.textColor = holderTextColor;
         Player5Label.textColor = holderTextColor;
+        
+        self.view.bringSubviewToFront(self.Player1Label)
+        self.view.bringSubviewToFront(self.Player2Label)
+        self.view.bringSubviewToFront(self.Player3Label)
+        self.view.bringSubviewToFront(self.Player4Label)
+        self.view.bringSubviewToFront(self.Player5Label)
     }
     func manageLifeChangeButtons(){
         //down tick = 0
@@ -229,6 +241,7 @@ class LifeViewController5Players: UIViewController{
         button.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
+        button.restorationIdentifier = "settings"
         button.backgroundColor = .red
         button.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
         
@@ -241,9 +254,17 @@ class LifeViewController5Players: UIViewController{
         self.view.addSubview(button)
     }
     @objc func settingsPressed(sender: UIButton){
-        performSegue(withIdentifier: "settingsFrom5P", sender: nil)
+        let settingsVC = storyboard?.instantiateViewController(withIdentifier: "settings") as! SettingsView
+        settingsVC.passDataBackDelegate = self
+        present(settingsVC, animated: true, completion: nil)
     }
     @objc func backButton(sender: UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+}
+extension LifeViewController5Players : passDataBack{
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!) {
+        backgroundColor = passedBackgroundColor
+        textColor = passedTextColor
     }
 }

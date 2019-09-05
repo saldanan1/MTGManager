@@ -8,6 +8,9 @@
 
 import UIKit
 
+protocol passDataBack {
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!)
+}
 class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     @IBOutlet weak var backgroundCollectionView: UICollectionView!
     @IBOutlet weak var textCollectionView: UICollectionView!
@@ -16,9 +19,12 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     var arrayOfColors: [UIColor] = [.red, .black, .blue, .gray, .darkGray, .brown, .cyan, .green, .magenta, .orange]
     var holderColor: UIColor = .red
+    
     let backgroundCollectionViewIndentifier = "backgroundCollection"
     let textCollectionViewIdentifier = "textCollection"
-
+    
+    
+    var passDataBackDelegate: passDataBack!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +64,6 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
             colorView.tag = indexPath.row
             colorView.addTarget(self, action: #selector(textColor(sender:)), for: UIControl.Event.touchDown)
             cellB.addSubview(colorView)
-            // ...Set up cell
             
             return cellB
         }
@@ -104,10 +109,11 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         dismiss(animated: true, completion: nil)
     }
     @objc func saveButton(sender:UIButton){
-        if let presenter = presentingViewController as? LifeViewController5Players {
-            presenter.textColor = textInView.textColor
-            presenter.backgroundColor = previewView.backgroundColor
-        }
+        passDataBackDelegate.choices(passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor)
         dismiss(animated: true, completion: nil)
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }

@@ -135,7 +135,7 @@
         <!--Settings View-->
         <scene sceneID="eX3-4i-pKl">
             <objects>
-                <viewController storyboardIdentifier="settings" id="kES-3p-sgQ" userLabel="Settings View" customClass="SettingsView" customModule="MTGManager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settings" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kES-3p-sgQ" userLabel="Settings View" customClass="SettingsView" customModule="MTGManager" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6ng-7C-QmW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -226,7 +226,7 @@
                         <outlet property="previewView" destination="BuI-K4-9i6" id="CNc-df-GB6"/>
                         <outlet property="textCollectionView" destination="joY-gU-GtW" id="SWn-AH-2NK"/>
                         <outlet property="textInView" destination="oUy-Hd-mGj" id="443-p5-siU"/>
-                        <segue destination="b0D-f4-x2m" kind="show" identifier="back" id="8Nj-Qc-2QZ"/>
+                        <segue destination="b0D-f4-x2m" kind="show" identifier="back5p" id="8Nj-Qc-2QZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Zp-dA-wrk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -387,7 +387,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EFN-lI-m1a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6178" y="24"/>
+            <point key="canvasLocation" x="-6178" y="174"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
