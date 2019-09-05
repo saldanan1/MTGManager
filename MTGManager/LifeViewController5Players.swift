@@ -18,7 +18,9 @@ class LifeViewController5Players: UIViewController{
     var lifeTotalP5: Int!
     
     var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
-    var labelColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var holderTextColor: UIColor!
+    var backgroundColor: UIColor! = .darkGray
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -30,56 +32,72 @@ class LifeViewController5Players: UIViewController{
         super.viewDidLoad()
         manageLifeTotals()
         manageLifeChangeButtons()
-        refreshLife()
+        refresh()
         loadDividers()
         loadBackButton()
     }
-    func refreshLife(){
+    override func viewWillAppear(_ animated: Bool) {
+        refresh()
+    }
+    func refresh(){
+        self.view.backgroundColor = backgroundColor
+        
         Player1Label.text = String(lifeTotalP1)
         Player2Label.text = String(lifeTotalP2)
         Player3Label.text = String(lifeTotalP3)
         Player4Label.text = String(lifeTotalP4)
         Player5Label.text = String(lifeTotalP5)
+        
+        holderTextColor = textColor
+        
+        Player1Label.textColor = holderTextColor;
+        Player2Label.textColor = holderTextColor;
+        Player3Label.textColor = holderTextColor;
+        Player4Label.textColor = holderTextColor;
+        Player5Label.textColor = holderTextColor;
     }
     func manageLifeChangeButtons(){
+        //down tick = 0
+        //up tick = 1
+        
         //player 1 (right side, top life) down tick
-        loadChangeLifeTotalButtons(cgX: (view.frame.width/2), cgY: (view.frame.height/6), cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Down Tick", playerNumber: "Player 1")
+        loadChangeLifeTotalButtons(cgX: (view.frame.width/2), cgY: (view.frame.height/6), cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: 0, playerNumber: "Player 1")
         //player 1 (right side, top life) up tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: (view.frame.height/6), buttonName: "Up Tick", playerNumber: "Player 1")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: (view.frame.height/6), buttonName: 1, playerNumber: "Player 1")
         
         //player 2 (right side, middle life) down tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height/3, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Up Tick", playerNumber: "Player 2")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: 0, playerNumber: "Player 2")
         //player 2 (right side, middle life) up tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Down Tick", playerNumber: "Player 2")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height/3, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: 1, playerNumber: "Player 2")
         
         //player 3 (right side, bottom life) down tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height-(view.frame.height/3), cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Up Tick", playerNumber: "Player 3")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/6, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: 0, playerNumber: "Player 3")
         //player 3 (right side, bottom life) up tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/6, cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: "Down Tick", playerNumber: "Player 3")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height-(view.frame.height/3), cgWidth: view.frame.width/2, cgHeight: view.frame.height/6, buttonName: 1, playerNumber: "Player 3")
         
         //player 3 (left side, bottom life) down tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 4")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 4")
         //player 3 (left side, bottom life) up tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Up Tick", playerNumber: "Player 4")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 4")
         
         //player 4 (left side, top life) down tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Down Tick", playerNumber: "Player 5")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 5")
         //player 4 (left side, top life) up tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: "Up Tick", playerNumber: "Player 5")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 5")
     }
     @objc func lifeChangePress(sender: UIButton) {
         UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
             sender.backgroundColor = .black
             sender.setTitle("", for: .normal)
             sender.setTitleColor(.white, for: .normal)
-            sender.backgroundColor = .darkGray
+            sender.backgroundColor = self.backgroundColor
             self.view.bringSubviewToFront(self.Player1Label)
             self.view.bringSubviewToFront(self.Player2Label)
             self.view.bringSubviewToFront(self.Player3Label)
             self.view.bringSubviewToFront(self.Player4Label)
             self.view.bringSubviewToFront(self.Player5Label)
         })
-        if (sender.titleLabel?.text == "Up Tick"){
+        if (sender.tag == 1){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
             }
@@ -96,7 +114,7 @@ class LifeViewController5Players: UIViewController{
                 lifeTotalP5 += 1
             }
         }
-        else if (sender.titleLabel?.text == "Down Tick"){
+        else if (sender.tag == 0){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 -= 1
             }
@@ -113,15 +131,15 @@ class LifeViewController5Players: UIViewController{
                 lifeTotalP5 -= 1
             }
         }
-        refreshLife()
+        refresh()
     }
     func loadChangeLifeTotalButtons
-        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: String, playerNumber: String){
+        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: Int, playerNumber: String){
         
         let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
         
         let genericButton = UIButton(frame: genericRect)
-        genericButton.setTitle(buttonName, for: .normal)
+        genericButton.tag = buttonName
         genericButton.restorationIdentifier = playerNumber
         genericButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
         genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)
@@ -144,7 +162,6 @@ class LifeViewController5Players: UIViewController{
         
         self.view.addSubview(buttonView)
     }
-    
     func manageLifeTotals(){
         lifeTotalP1 = lifeTotalT
         lifeTotalP2 = lifeTotalT
@@ -152,25 +169,35 @@ class LifeViewController5Players: UIViewController{
         lifeTotalP4 = lifeTotalT
         lifeTotalP5 = lifeTotalT
         
-        Player1Label.textColor = labelColor;
+        Player1Label.textColor = textColor;
         Player1Label.text = String(lifeTotalP1)
         Player1Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
-
-        Player2Label.textColor = labelColor;
+        Player1Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height/6)
+        Player1Label.textAlignment = .center
+        
+        Player2Label.textColor = textColor;
         Player2Label.text = String(lifeTotalP2)
         Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+        Player2Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height/2)
+        Player2Label.textAlignment = .center
         
-        Player3Label.textColor = labelColor;
+        Player3Label.textColor = textColor;
         Player3Label.text = String(lifeTotalP3)
         Player3Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+        Player3Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height - view.frame.height/6)
+        Player3Label.textAlignment = .center
         
-        Player4Label.textColor = labelColor;
+        Player4Label.textColor = textColor;
         Player4Label.text = String(lifeTotalP4)
         Player4Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
+        Player4Label.center = CGPoint(x: view.frame.width/4, y: view.frame.height - view.frame.height/4)
+        Player4Label.textAlignment = .center
         
-        Player5Label.textColor = labelColor;
+        Player5Label.textColor = textColor;
         Player5Label.text = String(lifeTotalP5)
         Player5Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
+        Player5Label.center = CGPoint(x: view.frame.width/4, y: view.frame.height/4)
+        Player5Label.textAlignment = .center
     }
     
     func loadDividers(){
@@ -178,15 +205,15 @@ class LifeViewController5Players: UIViewController{
         let middleView = UIView(frame: middleRect)
         middleView.backgroundColor = customYellow
         
-        let leftSideRect = CGRect(x: 0, y: view.frame.height/2, width: view.frame.width/2, height: 20)
+        let leftSideRect = CGRect(x: 0, y: (view.frame.height/2)-10, width: view.frame.width/2, height: 20)
         let leftSideView = UIView(frame: leftSideRect)
         leftSideView.backgroundColor = customYellow
         
-        let rightSideFirstRect = CGRect(x: view.frame.width/2, y: view.frame.height/3, width: view.frame.width/2, height: 20)
+        let rightSideFirstRect = CGRect(x: view.frame.width/2, y: (view.frame.height/3)-10, width: view.frame.width/2, height: 20)
         let rightSideFirstView = UIView(frame: rightSideFirstRect)
         rightSideFirstView.backgroundColor = customYellow
         
-        let rightSideSecondRect = CGRect(x: view.frame.width/2, y: (2*view.frame.height)/3, width: view.frame.width/2, height: 20)
+        let rightSideSecondRect = CGRect(x: view.frame.width/2, y: ((2*view.frame.height)/3)-10, width: view.frame.width/2, height: 20)
         let rightSideSecondView = UIView(frame: rightSideSecondRect)
         rightSideSecondView.backgroundColor = customYellow
         
@@ -198,12 +225,23 @@ class LifeViewController5Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.backgroundColor = .red
+        button.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
+        
         //self.view.addSubview(topView)
         //self.view.addSubview(bottomView)
         self.view.addSubview(leftSideView)
         self.view.addSubview(rightSideFirstView)
         self.view.addSubview(rightSideSecondView)
         self.view.addSubview(middleView)
+        self.view.addSubview(button)
+    }
+    @objc func settingsPressed(sender: UIButton){
+        performSegue(withIdentifier: "settingsFrom5P", sender: nil)
     }
     @objc func backButton(sender: UIButton) {
         dismiss(animated: true, completion: nil)

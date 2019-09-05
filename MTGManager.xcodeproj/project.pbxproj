@@ -17,6 +17,7 @@
 		159BF3F522E204ED009CD3BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 159BF3F322E204ED009CD3BA /* LaunchScreen.storyboard */; };
 		159BF40022E204ED009CD3BA /* MTGManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF3FF22E204ED009CD3BA /* MTGManagerTests.swift */; };
 		159BF40B22E204ED009CD3BA /* MTGManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF40A22E204ED009CD3BA /* MTGManagerUITests.swift */; };
+		15ABFBF223204C7C00BD7487 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFBF123204C7C00BD7487 /* SettingsView.swift */; };
 		15AF0B182316F4A400A37B8A /* LifeViewController4Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */; };
 		15AF0B1A2316FECF00A37B8A /* LifeViewController5Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		159BF40622E204ED009CD3BA /* MTGManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTGManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		159BF40A22E204ED009CD3BA /* MTGManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTGManagerUITests.swift; sourceTree = "<group>"; };
 		159BF40C22E204ED009CD3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15ABFBF123204C7C00BD7487 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController4Players.swift; sourceTree = "<group>"; };
 		15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController5Players.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 				15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */,
 				15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */,
 				15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */,
+				15ABFBF123204C7C00BD7487 /* SettingsView.swift */,
 				159BF3EE22E204EB009CD3BA /* Main.storyboard */,
 				159BF3F122E204ED009CD3BA /* Assets.xcassets */,
 				159BF3F322E204ED009CD3BA /* LaunchScreen.storyboard */,
@@ -272,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				159BF3ED22E204EB009CD3BA /* ViewController.swift in Sources */,
+				15ABFBF223204C7C00BD7487 /* SettingsView.swift in Sources */,
 				15229A1F22E8936500DA9C42 /* LifeViewController3Players.swift in Sources */,
 				15AF0B182316F4A400A37B8A /* LifeViewController4Players.swift in Sources */,
 				15229A1D22E74F9D00DA9C42 /* commentedCode.swift in Sources */,

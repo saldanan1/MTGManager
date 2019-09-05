@@ -39,13 +39,13 @@ class LifeViewController2Players: UIViewController{
     }
     func manageLifeChangeButtons(){
         //lower down tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: (view.frame.height-view.frame.height/2), cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: "Down Tick", playerNumber: "Player 2")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: (view.frame.height-view.frame.height/2), cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0, playerNumber: "Player 2")
         //lower up tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width-view.frame.width/2, cgY: (view.frame.height-view.frame.height/2), cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: "Up Tick", playerNumber: "Player 2")
+        loadChangeLifeTotalButtons(cgX: view.frame.width-view.frame.width/2, cgY: (view.frame.height-view.frame.height/2), cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 1, playerNumber: "Player 2")
         //upper up tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: "Up Tick", playerNumber: "Player 1")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 1, playerNumber: "Player 1")
         //upper down tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: "Down Tick",playerNumber: "Player 1")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0,playerNumber: "Player 1")
     }
     @objc func lifeChangePress(sender: UIButton) {
         UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
@@ -56,7 +56,7 @@ class LifeViewController2Players: UIViewController{
             self.view.bringSubviewToFront(self.Player1Label)
             self.view.bringSubviewToFront(self.Player2Label)
         })
-        if (sender.titleLabel?.text == "Up Tick"){
+        if (sender.tag == 1){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
             }
@@ -64,7 +64,7 @@ class LifeViewController2Players: UIViewController{
                 lifeTotalP2 += 1
             }
         }
-        else if (sender.titleLabel?.text == "Down Tick"){
+        else if (sender.tag == 0){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 -= 1
             }
@@ -109,12 +109,12 @@ class LifeViewController2Players: UIViewController{
         dismiss(animated: true, completion: nil)
     }
     func loadChangeLifeTotalButtons
-        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: String, playerNumber: String){
+        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: Int, playerNumber: String){
         
         let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
         
         let genericButton = UIButton(frame: genericRect)
-        genericButton.setTitle(buttonName, for: .normal)
+        genericButton.tag = buttonName
         genericButton.restorationIdentifier = playerNumber
         genericButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
         genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)

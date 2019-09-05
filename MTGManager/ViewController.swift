@@ -72,7 +72,6 @@ class ViewController: UIViewController{
             let vc = segue.destination as? LifeViewController5Players
             vc?.lifeTotalT = lifeTotal
         }
-        
     }
     @IBAction func startClicked(_ sender: Any) {
         let segueString = "players" + String(numOfPlayers)
