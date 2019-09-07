@@ -14,7 +14,11 @@ class LifeViewController3Players: UIViewController{
     var lifeTotalP2: Int!
     var lifeTotalP3: Int!
     
-    var customYellow: UIColor! = UIColor(red: 1, green: 181/255, blue: 49/255, alpha: 1)
+    var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var holderTextColor: UIColor!
+    var backgroundColor: UIColor! = .darkGray
+    var fontSize: CGFloat! = 75.0
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -24,37 +28,32 @@ class LifeViewController3Players: UIViewController{
         super.viewDidLoad()
         manageLifeTotals()
         manageLifeChangeButtons()
-        refreshLife()
+        refresh()
         loadDividers()
         loadBackButton()
     }
-    override var prefersStatusBarHidden: Bool {
-        return true
+    override func viewWillAppear(_ animated: Bool) {
+        refresh()
     }
-    func refreshLife(){
+    func refresh(){
         Player1Label.text = String(lifeTotalP1)
         Player2Label.text = String(lifeTotalP2)
         Player3Label.text = String(lifeTotalP3)
-    }
-    func manageLifeTotals(){
-        lifeTotalP1 = lifeTotalT
-        lifeTotalP2 = lifeTotalT
-        lifeTotalP3 = lifeTotalT
         
-        Player1Label.text = String(lifeTotalP1)
-        Player1Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
-        Player1Label.center = CGPoint(x: view.center.x/2, y: view.center.y)
-        Player1Label.textAlignment = .center
+        holderTextColor = textColor
         
-        Player2Label.text = String(lifeTotalP2)
-        Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
-        Player2Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height/4)
-        Player2Label.textAlignment = .center
-        
-        Player3Label.text = String(lifeTotalP3)
-        Player3Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
-        Player3Label.center = CGPoint(x: view.frame.width-view.frame.width/4, y: view.frame.height - view.frame.height/4)
-        Player3Label.textAlignment = .center
+        for case let button as UIButton in self.view.subviews {
+            if (button.restorationIdentifier != "settings"){
+                button.backgroundColor = backgroundColor
+            }
+        }
+        for case let text as UILabel in self.view.subviews{
+            if (text.restorationIdentifier != "someLabel"){
+                text.textColor = holderTextColor
+                self.view.bringSubviewToFront(text)
+                text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
+            }
+        }
     }
     func manageLifeChangeButtons(){
         //player 1 (left side) down tick
@@ -77,7 +76,7 @@ class LifeViewController3Players: UIViewController{
             sender.backgroundColor = .black
             sender.setTitle("", for: .normal)
             sender.setTitleColor(.white, for: .normal)
-            sender.backgroundColor = .darkGray
+            sender.backgroundColor = self.backgroundColor
             
             self.view.bringSubviewToFront(self.Player1Label)
             self.view.bringSubviewToFront(self.Player2Label)
@@ -105,7 +104,7 @@ class LifeViewController3Players: UIViewController{
                 lifeTotalP3 -= 1
             }
         }
-        refreshLife()
+        refresh()
     }
     func loadChangeLifeTotalButtons
         (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: Int, playerNumber: String){
@@ -119,6 +118,9 @@ class LifeViewController3Players: UIViewController{
         genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)
         
         self.view.addSubview(genericButton)
+    }
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     func loadBackButton(){
         let someRect = CGRect(x: 30, y: 30, width: 40, height: 40)
@@ -134,8 +136,28 @@ class LifeViewController3Players: UIViewController{
         self.view.addSubview(buttonView)
         self.view.bringSubviewToFront(buttonView)
     }
-    @objc func backButton(sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+    func manageLifeTotals(){
+        lifeTotalP1 = lifeTotalT
+        lifeTotalP2 = lifeTotalT
+        lifeTotalP3 = lifeTotalT
+        
+        Player1Label.textColor = textColor;
+        Player1Label.text = String(lifeTotalP1)
+        Player1Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
+        Player1Label.center = CGPoint(x: view.center.x/2, y: view.center.y)
+        Player1Label.textAlignment = .center
+        
+        Player2Label.textColor = textColor;
+        Player2Label.text = String(lifeTotalP2)
+        Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+        Player2Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height/4)
+        Player2Label.textAlignment = .center
+        
+        Player3Label.textColor = textColor;
+        Player3Label.text = String(lifeTotalP3)
+        Player3Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
+        Player3Label.center = CGPoint(x: view.frame.width-view.frame.width/4, y: view.frame.height - view.frame.height/4)
+        Player3Label.textAlignment = .center
     }
     func loadDividers(){
         let middleRect = CGRect(x: (view.frame.width / 2)-10, y: 0, width: 20, height: view.frame.height)
@@ -154,9 +176,32 @@ class LifeViewController3Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
+        settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
+        settingsButton.clipsToBounds = true
+        settingsButton.restorationIdentifier = "settings"
+        settingsButton.backgroundColor = .red
+        settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
+        
         //self.view.addSubview(topView)
         //self.view.addSubview(bottomView)
         self.view.addSubview(sideView)
         self.view.addSubview(middleView)
+        self.view.addSubview(settingsButton)
+    }
+    @objc func settingsPressed(sender: UIButton){
+        let settingsVC = storyboard?.instantiateViewController(withIdentifier: "settings") as! SettingsView
+        settingsVC.passDataBackDelegate = self
+        present(settingsVC, animated: true, completion: nil)
+    }
+    @objc func backButton(sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+extension LifeViewController3Players : passDataBack{
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!,  passedFontSize: CGFloat!) {
+        backgroundColor = passedBackgroundColor
+        textColor = passedTextColor
     }
 }

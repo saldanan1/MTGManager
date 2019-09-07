@@ -21,6 +21,7 @@ class LifeViewController5Players: UIViewController{
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
+    var fontSize: CGFloat! = 75.0
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -55,18 +56,13 @@ class LifeViewController5Players: UIViewController{
                 button.backgroundColor = backgroundColor
             }
         }
-        
-        Player1Label.textColor = holderTextColor;
-        Player2Label.textColor = holderTextColor;
-        Player3Label.textColor = holderTextColor;
-        Player4Label.textColor = holderTextColor;
-        Player5Label.textColor = holderTextColor;
-        
-        self.view.bringSubviewToFront(self.Player1Label)
-        self.view.bringSubviewToFront(self.Player2Label)
-        self.view.bringSubviewToFront(self.Player3Label)
-        self.view.bringSubviewToFront(self.Player4Label)
-        self.view.bringSubviewToFront(self.Player5Label)
+        for case let text as UILabel in self.view.subviews{
+            if (text.restorationIdentifier != "someLabel"){
+                text.textColor = holderTextColor
+                self.view.bringSubviewToFront(text)
+                text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
+            }
+        }
     }
     func manageLifeChangeButtons(){
         //down tick = 0
@@ -173,6 +169,7 @@ class LifeViewController5Players: UIViewController{
         buttonView.addSubview(backButton)
         
         self.view.addSubview(buttonView)
+        self.view.bringSubviewToFront(buttonView)
     }
     func manageLifeTotals(){
         lifeTotalP1 = lifeTotalT
@@ -237,13 +234,13 @@ class LifeViewController5Players: UIViewController{
         let topView = UIView(frame:topRect)
         topView.backgroundColor = customYellow
         
-        let button = UIButton(type: .custom)
-        button.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
-        button.layer.cornerRadius = 0.5 * button.bounds.size.width
-        button.clipsToBounds = true
-        button.restorationIdentifier = "settings"
-        button.backgroundColor = .red
-        button.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
+        settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
+        settingsButton.clipsToBounds = true
+        settingsButton.restorationIdentifier = "settings"
+        settingsButton.backgroundColor = .red
+        settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
         
         //self.view.addSubview(topView)
         //self.view.addSubview(bottomView)
@@ -251,7 +248,7 @@ class LifeViewController5Players: UIViewController{
         self.view.addSubview(rightSideFirstView)
         self.view.addSubview(rightSideSecondView)
         self.view.addSubview(middleView)
-        self.view.addSubview(button)
+        self.view.addSubview(settingsButton)
     }
     @objc func settingsPressed(sender: UIButton){
         let settingsVC = storyboard?.instantiateViewController(withIdentifier: "settings") as! SettingsView
@@ -263,8 +260,9 @@ class LifeViewController5Players: UIViewController{
     }
 }
 extension LifeViewController5Players : passDataBack{
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!) {
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
+        fontSize = passedFontSize
     }
 }

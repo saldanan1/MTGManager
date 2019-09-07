@@ -9,7 +9,7 @@
 import UIKit
 
 protocol passDataBack {
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!)
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!)
 }
 class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     @IBOutlet weak var backgroundCollectionView: UICollectionView!
@@ -19,6 +19,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     var arrayOfColors: [UIColor] = [.red, .black, .blue, .gray, .darkGray, .brown, .cyan, .green, .magenta, .orange]
     var holderColor: UIColor = .red
+    var previewFontSize: CGFloat = 75.0
     
     let backgroundCollectionViewIndentifier = "backgroundCollection"
     let textCollectionViewIdentifier = "textCollection"
@@ -30,11 +31,23 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         super.viewDidLoad()
         loadBackButton()
         loadSaveButton()
+        loadCollections()
+        previewView.backgroundColor = .red
+    }
+    
+    @IBAction func fontChanged(_ sender: UISlider) {
+        previewFontSize = CGFloat(sender.value)
+        textInView.font = UIFont(name:"HelveticaNeue-Bold", size: previewFontSize/2.5)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        textInView.font = UIFont(name:"HelveticaNeue-Bold", size: previewFontSize/2.5)
+    }
+    func loadCollections(){
         backgroundCollectionView.dataSource = self
         backgroundCollectionView.delegate = self
         textCollectionView.dataSource = self
         textCollectionView.delegate = self
-        previewView.backgroundColor = .red
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.backgroundCollectionView{
@@ -109,7 +122,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         dismiss(animated: true, completion: nil)
     }
     @objc func saveButton(sender:UIButton){
-        passDataBackDelegate.choices(passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor)
+        passDataBackDelegate.choices(passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize)
         dismiss(animated: true, completion: nil)
     }
     override func didReceiveMemoryWarning() {
@@ -117,3 +130,4 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         // Dispose of any resources that can be recreated.
     }
 }
+

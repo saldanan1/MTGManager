@@ -7,35 +7,49 @@
 //
 
 import UIKit
-
-extension CGRect {
-    var center: CGPoint { return CGPoint(x: midX, y: midY) }
-}
 class LifeViewController2Players: UIViewController{
     var lifeTotalT: Int!
+    
     var lifeTotalP1: Int!
     var lifeTotalP2: Int!
     
+    var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var holderTextColor: UIColor!
+    var backgroundColor: UIColor! = .darkGray
+    var fontSize: CGFloat! = 75.0
+    
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
-    var customYellow: UIColor! = UIColor(red: 1, green: 181/255, blue: 49/255, alpha: 1)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        lifeTotalP1 = lifeTotalT
-        lifeTotalP2 = lifeTotalT
-        refreshLife()
+        manageLifeTotals()
+        refresh()
         manageLifeChangeButtons()
         loadDividers()
         loadBackButton()
-        Player1Label.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
     }
-    override var prefersStatusBarHidden: Bool {
-        return true
+    override func viewWillAppear(_ animated: Bool) {
+        refresh()
     }
-    func refreshLife(){
+    func refresh(){
         Player1Label.text = String(lifeTotalP1);
         Player2Label.text = String(lifeTotalP2);
+        holderTextColor = textColor
+        
+        for case let button as UIButton in self.view.subviews {
+            if (button.restorationIdentifier != "settings"){
+                button.backgroundColor = backgroundColor
+            }
+        }
+        for case let text as UILabel in self.view.subviews{
+            if (text.restorationIdentifier != "someLabel"){
+                text.textColor = holderTextColor
+                self.view.bringSubviewToFront(text)
+                text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
+            }
+        }
     }
     func manageLifeChangeButtons(){
         //lower down tick
@@ -52,7 +66,8 @@ class LifeViewController2Players: UIViewController{
             sender.backgroundColor = .black
             sender.setTitle("", for: .normal)
             sender.setTitleColor(.white, for: .normal)
-            sender.backgroundColor = .darkGray
+            sender.backgroundColor = self.backgroundColor
+            
             self.view.bringSubviewToFront(self.Player1Label)
             self.view.bringSubviewToFront(self.Player2Label)
         })
@@ -72,24 +87,23 @@ class LifeViewController2Players: UIViewController{
                 lifeTotalP2 -= 1
             }
         }
-        refreshLife()
+        refresh()
     }
-    func loadDividers(){
-        let sideRect = CGRect(x: 0, y: view.frame.height/2, width: (view.frame.width), height: 20)
-        let sideView = UIView(frame: sideRect)
-        sideView.backgroundColor = customYellow
+    func loadChangeLifeTotalButtons
+        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: Int, playerNumber: String){
         
-        let bottomRect = CGRect(x: 0, y: view.frame.height-30, width: (view.frame.width), height: 40)
-        let bottomView = UIView(frame:bottomRect)
-        bottomView.backgroundColor = customYellow
+        let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
         
-        let topRect = CGRect(x:0, y:0, width: (view.frame.width), height: 40)
-        let topView = UIView(frame:topRect)
-        topView.backgroundColor = customYellow
+        let genericButton = UIButton(frame: genericRect)
+        genericButton.tag = buttonName
+        genericButton.restorationIdentifier = playerNumber
+        genericButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
+        genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)
         
-        //self.view.addSubview(topView)
-        //self.view.addSubview(bottomView)
-        self.view.addSubview(sideView)
+        self.view.addSubview(genericButton)
+    }
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     func loadBackButton(){
         let someRect = CGRect(x: 30, y: 30, width: 40, height: 40)
@@ -105,21 +119,52 @@ class LifeViewController2Players: UIViewController{
         self.view.addSubview(buttonView)
         self.view.bringSubviewToFront(buttonView)
     }
+    func manageLifeTotals(){
+        lifeTotalP1 = lifeTotalT
+        lifeTotalP2 = lifeTotalT
+        
+        Player1Label.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+    }
+    func loadDividers(){
+        let sideRect = CGRect(x: 0, y: (view.frame.height/2)-10, width: (view.frame.width), height: 20)
+        let sideView = UIView(frame: sideRect)
+        sideView.backgroundColor = customYellow
+        
+        let bottomRect = CGRect(x: 0, y: view.frame.height-30, width: (view.frame.width), height: 40)
+        let bottomView = UIView(frame:bottomRect)
+        bottomView.backgroundColor = customYellow
+        
+        let topRect = CGRect(x:0, y:0, width: (view.frame.width), height: 40)
+        let topView = UIView(frame:topRect)
+        topView.backgroundColor = customYellow
+        
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
+        settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
+        settingsButton.clipsToBounds = true
+        settingsButton.restorationIdentifier = "settings"
+        settingsButton.backgroundColor = .red
+        settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
+        
+        //self.view.addSubview(topView)
+        //self.view.addSubview(bottomView)
+        self.view.addSubview(sideView)
+        self.view.addSubview(settingsButton)
+    }
+    @objc func settingsPressed(sender: UIButton){
+        let settingsVC = storyboard?.instantiateViewController(withIdentifier: "settings") as! SettingsView
+        settingsVC.passDataBackDelegate = self
+        present(settingsVC, animated: true, completion: nil)
+    }
     @objc func backButton(sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-    func loadChangeLifeTotalButtons
-        (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: Int, playerNumber: String){
-        
-        let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
-        
-        let genericButton = UIButton(frame: genericRect)
-        genericButton.tag = buttonName
-        genericButton.restorationIdentifier = playerNumber
-        genericButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
-        genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)
-        
-        self.view.addSubview(genericButton)
+}
+extension LifeViewController2Players : passDataBack{
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!) {
+        backgroundColor = passedBackgroundColor
+        textColor = passedTextColor
+        fontSize = passedFontSize
     }
 }
 
