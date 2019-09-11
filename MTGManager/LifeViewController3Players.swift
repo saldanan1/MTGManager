@@ -19,6 +19,7 @@ class LifeViewController3Players: UIViewController{
     var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
+    var viewStayOn: Bool!
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -34,8 +35,9 @@ class LifeViewController3Players: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         refresh()
-        //fix me later
-        UIApplication.shared.isIdleTimerDisabled = true
+        if (viewStayOn == true){
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
     }
     func refresh(){
         Player1Label.text = String(lifeTotalP1)
@@ -199,13 +201,21 @@ class LifeViewController3Players: UIViewController{
         present(settingsVC, animated: true, completion: nil)
     }
     @objc func backButton(sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        let alert = UIAlertController(title: "Go Back", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 extension LifeViewController3Players : passDataBack{
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!,  passedFontSize: CGFloat!) {
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!,  passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
         fontSize = passedFontSize
+        viewStayOn = viewStayOnPassed
     }
 }

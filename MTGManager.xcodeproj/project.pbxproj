@@ -109,13 +109,13 @@
 		159BF3E922E204EB009CD3BA /* MTGManager */ = {
 			isa = PBXGroup;
 			children = (
+				15ABFBF123204C7C00BD7487 /* SettingsView.swift */,
 				159BF3EA22E204EB009CD3BA /* AppDelegate.swift */,
 				159BF3EC22E204EB009CD3BA /* ViewController.swift */,
 				1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */,
 				15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */,
 				15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */,
 				15AF0B192316FECF00A37B8A /* LifeViewController5Players.swift */,
-				15ABFBF123204C7C00BD7487 /* SettingsView.swift */,
 				159BF3EE22E204EB009CD3BA /* Main.storyboard */,
 				159BF3F122E204ED009CD3BA /* Assets.xcassets */,
 				159BF3F322E204ED009CD3BA /* LaunchScreen.storyboard */,

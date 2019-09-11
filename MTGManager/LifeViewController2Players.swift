@@ -18,6 +18,7 @@ class LifeViewController2Players: UIViewController{
     var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
+    var viewStayOn: Bool!
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -32,20 +33,21 @@ class LifeViewController2Players: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         refresh()
-        //fix me later
-        UIApplication.shared.isIdleTimerDisabled = true
+        if (viewStayOn == true){
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
     }
     func refresh(){
         Player1Label.text = String(lifeTotalP1);
         Player2Label.text = String(lifeTotalP2);
         holderTextColor = textColor
         
-        for case let button as UIButton in self.view.subviews {
+        for case let button as UIButton in self.view.subviews { //select all butons view except the settings button
             if (button.restorationIdentifier != "settings"){
                 button.backgroundColor = backgroundColor
             }
         }
-        for case let text as UILabel in self.view.subviews{
+        for case let text as UILabel in self.view.subviews{ //select all labels in view except someLabel (in case I need to exclude some label later)
             if (text.restorationIdentifier != "someLabel"){
                 text.textColor = holderTextColor
                 self.view.bringSubviewToFront(text)
@@ -160,14 +162,22 @@ class LifeViewController2Players: UIViewController{
         present(settingsVC, animated: true, completion: nil)
     }
     @objc func backButton(sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        let alert = UIAlertController(title: "Go Back", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 extension LifeViewController2Players : passDataBack{
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!) {
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
         fontSize = passedFontSize
+        viewStayOn = viewStayOnPassed
     }
 }
 

@@ -29,21 +29,10 @@ self.performSegue(withIdentifier: segueIdentifierString, sender: self)*/
  print("Recieved from UserDefaults: " + x)
  }
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+ //ALERTS
+ let alert = UIAlertController(title: "Alert", message: "Not yet implemented", preferredStyle: UIAlertController.Style.alert)
+ alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))
+ self.present(alert, animated: true, completion: nil)
  
  
  

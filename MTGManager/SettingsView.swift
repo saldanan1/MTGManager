@@ -9,7 +9,7 @@
 import UIKit
 
 protocol passDataBack {
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!)
+    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!)
 }
 class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     @IBOutlet weak var backgroundCollectionView: UICollectionView!
@@ -20,10 +20,10 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     var arrayOfColors: [UIColor] = [.red, .black, .blue, .gray, .darkGray, .brown, .cyan, .green, .magenta, .orange]
     var holderColor: UIColor = .red
     var previewFontSize: CGFloat = 75.0
+    var viewStayOn: Bool! = false
     
     let backgroundCollectionViewIndentifier = "backgroundCollection"
     let textCollectionViewIdentifier = "textCollection"
-    
     
     var passDataBackDelegate: passDataBack!
     
@@ -34,12 +34,18 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         loadCollections()
         previewView.backgroundColor = .red
     }
-    
+    @IBAction func viewStayOnChanged(_ sender: UISwitch) {
+        if(sender.isOn == true){
+            viewStayOn = true
+        }
+        else if (sender.isOn == false){
+            viewStayOn = false
+        }
+    }
     @IBAction func fontChanged(_ sender: UISlider) {
         previewFontSize = CGFloat(sender.value)
         textInView.font = UIFont(name:"HelveticaNeue-Bold", size: previewFontSize/2.5)
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         textInView.font = UIFont(name:"HelveticaNeue-Bold", size: previewFontSize/2.5)
     }
@@ -122,7 +128,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         dismiss(animated: true, completion: nil)
     }
     @objc func saveButton(sender:UIButton){
-        passDataBackDelegate.choices(passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize)
+        passDataBackDelegate.choices(passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize, viewStayOnPassed: viewStayOn)
         dismiss(animated: true, completion: nil)
     }
     override func didReceiveMemoryWarning() {
