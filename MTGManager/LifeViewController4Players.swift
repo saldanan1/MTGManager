@@ -37,6 +37,8 @@ class LifeViewController4Players: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         refresh()
+        //fix me later
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     func refresh(){
         self.view.backgroundColor = backgroundColor
@@ -58,6 +60,7 @@ class LifeViewController4Players: UIViewController{
                 text.textColor = holderTextColor
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
+                text.sizeToFit()
             }
         }
     }

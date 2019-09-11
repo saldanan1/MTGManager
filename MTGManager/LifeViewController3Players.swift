@@ -34,6 +34,8 @@ class LifeViewController3Players: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         refresh()
+        //fix me later
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     func refresh(){
         Player1Label.text = String(lifeTotalP1)
@@ -52,6 +54,7 @@ class LifeViewController3Players: UIViewController{
                 text.textColor = holderTextColor
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
+                text.sizeToFit()
             }
         }
     }
@@ -203,5 +206,6 @@ extension LifeViewController3Players : passDataBack{
     func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!,  passedFontSize: CGFloat!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
+        fontSize = passedFontSize
     }
 }
