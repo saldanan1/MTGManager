@@ -201,7 +201,7 @@ class LifeViewController3Players: UIViewController{
         present(settingsVC, animated: true, completion: nil)
     }
     @objc func backButton(sender: UIButton) {
-        let alert = UIAlertController(title: "Go Back", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Are you sure?", message: "", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { action in
             self.dismiss(animated: true, completion: nil)
         }))

@@ -13,10 +13,19 @@ class ViewController: UIViewController{
     var numOfPlayers = 2
     var lifeTotal: Int = 20
     @IBOutlet weak var playerOneText: UITextField!
+    @IBOutlet weak var playerOneLabel: UILabel!
+    
     @IBOutlet weak var playerTwoText: UITextField!
+    @IBOutlet weak var playerTwoLabel: UILabel!
+    
     @IBOutlet weak var playerThreeText: UITextField!
+    @IBOutlet weak var playerThreeLabel: UILabel!
+    
     @IBOutlet weak var playerFourText: UITextField!
+    @IBOutlet weak var playerFourLabel: UILabel!
+    
     @IBOutlet weak var playerFiveText: UITextField!
+    @IBOutlet weak var playerFiveLabel: UILabel!
     
     @IBOutlet var numberPlayerControl : UISegmentedControl!;
     @IBOutlet weak var lifeTotalControl: UISegmentedControl!
@@ -33,19 +42,43 @@ class ViewController: UIViewController{
         switch sender.selectedSegmentIndex {
         case 0:
             numOfPlayers = 2;
-            playerOneText.isHidden = false;
-            playerTwoText.isHidden = false;
+            playerOneText.isHidden = false
+            playerOneLabel.isHidden = false
+            playerTwoText.isHidden = false
+            playerTwoLabel.isHidden = false
             
-            playerThreeText.isHidden = true;
-            playerFourText.isHidden = true;
-            playerFiveText.isHidden = true;
+            playerThreeText.isHidden = true
+            playerThreeLabel.isHidden = true
+            playerFourText.isHidden = true
+            playerFourLabel.isHidden = true
+            playerFiveText.isHidden = true
+            playerFiveLabel.isHidden = true
         case 1:
             numOfPlayers = 3;
-            playerThreeText.isHidden = false;
+            playerThreeText.isHidden = false
+            playerThreeLabel.isHidden = false
+            
+            playerFourText.isHidden = true
+            playerFourLabel.isHidden = true
+            playerFiveText.isHidden = true
+            playerFiveLabel.isHidden = true
         case 2:
             numOfPlayers = 4;
+            playerThreeText.isHidden = false
+            playerThreeLabel.isHidden = false
+            playerFourText.isHidden = false
+            playerFourLabel.isHidden = false
+            
+            playerFiveText.isHidden = true
+            playerFiveLabel.isHidden = true
         case 3:
             numOfPlayers = 5;
+            playerThreeText.isHidden = false
+            playerThreeLabel.isHidden = false
+            playerFourText.isHidden = false
+            playerFourLabel.isHidden = false
+            playerFiveText.isHidden = false
+            playerFiveLabel.isHidden = false
         default:
             break;
         }
@@ -93,6 +126,8 @@ class ViewController: UIViewController{
         {
             let vc = segue.destination as? LifeViewController2Players
             vc?.lifeTotalT = lifeTotal
+            vc?.PlayerOneName = playerOneText.text
+            vc?.PlayerTwoName = playerTwoText.text
         }
         else if segue.destination is LifeViewController3Players
         {

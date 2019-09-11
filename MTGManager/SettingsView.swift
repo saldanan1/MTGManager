@@ -14,8 +14,12 @@ protocol passDataBack {
 class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     @IBOutlet weak var backgroundCollectionView: UICollectionView!
     @IBOutlet weak var textCollectionView: UICollectionView!
+    @IBOutlet weak var dividerCollectionView: UICollectionView!
+    
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var textInView: UILabel!
+    @IBOutlet weak var dividerInView1: UIView!
+    @IBOutlet weak var dividerInView2: UIView!
     
     var arrayOfColors: [UIColor] = [.red, .black, .blue, .gray, .darkGray, .brown, .cyan, .green, .magenta, .orange]
     var holderColor: UIColor = .red
@@ -24,6 +28,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     let backgroundCollectionViewIndentifier = "backgroundCollection"
     let textCollectionViewIdentifier = "textCollection"
+    let dividerCollectionViewIdentifier = "dividerCollection"
     
     var passDataBackDelegate: passDataBack!
     
@@ -33,6 +38,8 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         loadSaveButton()
         loadCollections()
         previewView.backgroundColor = .red
+        dividerInView2.backgroundColor = .gray
+        dividerInView1.backgroundColor = .gray
     }
     @IBAction func viewStayOnChanged(_ sender: UISwitch) {
         if(sender.isOn == true){
@@ -54,9 +61,14 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         backgroundCollectionView.delegate = self
         textCollectionView.dataSource = self
         textCollectionView.delegate = self
+        dividerCollectionView.dataSource = self
+        dividerCollectionView.delegate = self
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.backgroundCollectionView{
+            return arrayOfColors.count
+        }
+        else if collectionView == self.textCollectionView{
             return arrayOfColors.count
         }
         else{
@@ -76,7 +88,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
             return cellA
         }
             
-        else {
+        else if (collectionView == self.textCollectionView){
             let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: textCollectionViewIdentifier, for: indexPath) as UICollectionViewCell
             let colorView = UIButton(frame: cellB.contentView.frame)
             colorView.backgroundColor = arrayOfColors[indexPath.row]
@@ -86,6 +98,16 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
             
             return cellB
         }
+        else{
+            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: dividerCollectionViewIdentifier, for: indexPath) as UICollectionViewCell
+            let colorView = UIButton(frame: cellC.contentView.frame)
+            colorView.backgroundColor = arrayOfColors[indexPath.row]
+            colorView.tag = indexPath.row
+            colorView.addTarget(self, action: #selector(dividerColor(sender:)), for: UIControl.Event.touchDown)
+            cellC.addSubview(colorView)
+            
+            return cellC
+        }
     }
     @objc func backgroundColor(sender: UIButton){
         let holderColor = arrayOfColors[sender.tag]
@@ -94,6 +116,11 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     @objc func textColor(sender: UIButton){
         let holderColor = arrayOfColors[sender.tag]
         textInView.textColor = holderColor
+    }
+    @objc func dividerColor(sender: UIButton){
+        let holderColor = arrayOfColors[sender.tag]
+        dividerInView1.backgroundColor = holderColor
+        dividerInView2.backgroundColor = holderColor
     }
     override var prefersStatusBarHidden: Bool {
         return true

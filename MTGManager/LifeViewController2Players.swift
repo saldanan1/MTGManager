@@ -14,11 +14,15 @@ class LifeViewController2Players: UIViewController{
     var lifeTotalP2: Int!
     
     var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var dividerColor: UIColor! = .gray
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
+    
+    var PlayerOneName: String! = ""
+    var PlayerTwoName: String! = ""
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -31,16 +35,17 @@ class LifeViewController2Players: UIViewController{
         loadDividers()
         loadBackButton()
     }
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool){
         refresh()
         if (viewStayOn == true){
             UIApplication.shared.isIdleTimerDisabled = true
         }
     }
     func refresh(){
+        holderTextColor = textColor
+        
         Player1Label.text = String(lifeTotalP1);
         Player2Label.text = String(lifeTotalP2);
-        holderTextColor = textColor
         
         for case let button as UIButton in self.view.subviews { //select all butons view except the settings button
             if (button.restorationIdentifier != "settings"){
@@ -48,13 +53,15 @@ class LifeViewController2Players: UIViewController{
             }
         }
         for case let text as UILabel in self.view.subviews{ //select all labels in view except someLabel (in case I need to exclude some label later)
-            if (text.restorationIdentifier != "someLabel"){
+            if (text.restorationIdentifier != "playerName"){
                 text.textColor = holderTextColor
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
                 text.sizeToFit()
             }
         }
+        Player1Label.center = CGPoint(x: view.center.x, y: 5*(view.frame.height/16))
+        Player2Label.center = CGPoint(x: view.center.x, y: view.frame.height - 5*(view.frame.height/16))
     }
     func manageLifeChangeButtons(){
         //lower down tick
@@ -64,7 +71,10 @@ class LifeViewController2Players: UIViewController{
         //upper up tick
         loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 1, playerNumber: "Player 1")
         //upper down tick
-        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0,playerNumber: "Player 1")
+        loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0, playerNumber: "Player 1")
+        
+        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: PlayerOneName)
+        loadPlayerName(cgX: 0, cgY: view.frame.height - view.frame.height/8, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: PlayerTwoName)
     }
     @objc func lifeChangePress(sender: UIButton) {
         UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
@@ -93,6 +103,23 @@ class LifeViewController2Players: UIViewController{
             }
         }
         refresh()
+    }
+    func loadPlayerName(cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, playerName: String){
+        let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
+        
+        let genericLabel = UILabel(frame:genericRect)
+        genericLabel.restorationIdentifier = "playerName"
+        genericLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
+        genericLabel.textColor = UIColor.red
+        genericLabel.backgroundColor = dividerColor
+        genericLabel.textAlignment = NSTextAlignment.center;
+        if (playerName == PlayerOneName){
+            genericLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            
+        }
+        genericLabel.text = playerName
+        
+        self.view.addSubview(genericLabel)
     }
     func loadChangeLifeTotalButtons
         (cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, buttonName: Int, playerNumber: String){
@@ -133,15 +160,15 @@ class LifeViewController2Players: UIViewController{
     func loadDividers(){
         let sideRect = CGRect(x: 0, y: (view.frame.height/2)-10, width: (view.frame.width), height: 20)
         let sideView = UIView(frame: sideRect)
-        sideView.backgroundColor = customYellow
+        sideView.backgroundColor = dividerColor
         
         let bottomRect = CGRect(x: 0, y: view.frame.height-30, width: (view.frame.width), height: 40)
         let bottomView = UIView(frame:bottomRect)
-        bottomView.backgroundColor = customYellow
+        bottomView.backgroundColor = dividerColor
         
         let topRect = CGRect(x:0, y:0, width: (view.frame.width), height: 40)
         let topView = UIView(frame:topRect)
-        topView.backgroundColor = customYellow
+        topView.backgroundColor = dividerColor
         
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
@@ -162,7 +189,7 @@ class LifeViewController2Players: UIViewController{
         present(settingsVC, animated: true, completion: nil)
     }
     @objc func backButton(sender: UIButton) {
-        let alert = UIAlertController(title: "Go Back", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Are you sure?", message: "", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { action in
             self.dismiss(animated: true, completion: nil)
         }))
