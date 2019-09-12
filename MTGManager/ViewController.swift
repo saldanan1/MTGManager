@@ -12,6 +12,9 @@ class ViewController: UIViewController{
 
     var numOfPlayers = 2
     var lifeTotal: Int = 20
+    
+    var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    
     @IBOutlet weak var playerOneText: UITextField!
     @IBOutlet weak var playerOneLabel: UILabel!
     
@@ -102,6 +105,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         createPlayerInputFields()
+        loadUserDefaults()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -110,6 +114,11 @@ class ViewController: UIViewController{
     }
     @objc func keyboardWillHide(notification: Notification){
         view.frame.origin.y = 0
+    }
+    func loadUserDefaults(){
+        UserDefaults.standard.set(textColor, forKey: "textColor")
+        UserDefaults.standard.set(UIColor.darkGray, forKey: "previewView")
+        UserDefaults.standard.set(UIColor.gray, forKey: "dividerColor")
     }
     override func viewWillAppear(_ animated: Bool) {
         createPlayerInputFields()
@@ -126,13 +135,16 @@ class ViewController: UIViewController{
         {
             let vc = segue.destination as? LifeViewController2Players
             vc?.lifeTotalT = lifeTotal
-            vc?.PlayerOneName = playerOneText.text
-            vc?.PlayerTwoName = playerTwoText.text
+            vc?.playerOneName = playerOneText.text
+            vc?.playerTwoName = playerTwoText.text
         }
         else if segue.destination is LifeViewController3Players
         {
             let vc = segue.destination as? LifeViewController3Players
             vc?.lifeTotalT = lifeTotal
+            vc?.playerOneName = playerOneText.text
+            vc?.playerTwoName = playerTwoText.text
+            vc?.playerThreeName = playerThreeText.text
         }
         else if segue.destination is LifeViewController4Players{
             let vc = segue.destination as? LifeViewController4Players

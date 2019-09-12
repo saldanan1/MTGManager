@@ -18,6 +18,7 @@ class LifeViewController4Players: UIViewController{
     
     var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var dividerColor: UIColor! = .gray
     var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
@@ -240,10 +241,11 @@ class LifeViewController4Players: UIViewController{
     }
 }
 extension LifeViewController4Players : passDataBack{
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
+    func choices(passedDividerColor: UIColor!,passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
         fontSize = passedFontSize
         viewStayOn = viewStayOnPassed
+        dividerColor = passedDividerColor
     }
 }

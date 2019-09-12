@@ -9,7 +9,7 @@
 import UIKit
 
 protocol passDataBack {
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!)
+    func choices(passedDividerColor: UIColor!, passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!)
 }
 class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     @IBOutlet weak var backgroundCollectionView: UICollectionView!
@@ -22,6 +22,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     @IBOutlet weak var dividerInView2: UIView!
     
     var arrayOfColors: [UIColor] = [.red, .black, .blue, .gray, .darkGray, .brown, .cyan, .green, .magenta, .orange]
+    var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var holderColor: UIColor = .red
     var previewFontSize: CGFloat = 75.0
     var viewStayOn: Bool! = false
@@ -37,9 +38,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         loadBackButton()
         loadSaveButton()
         loadCollections()
-        previewView.backgroundColor = .red
-        dividerInView2.backgroundColor = .gray
-        dividerInView1.backgroundColor = .gray
+        refresh()
     }
     @IBAction func viewStayOnChanged(_ sender: UISwitch) {
         if(sender.isOn == true){
@@ -54,6 +53,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         textInView.font = UIFont(name:"HelveticaNeue-Bold", size: previewFontSize/2.5)
     }
     override func viewWillAppear(_ animated: Bool) {
+        refresh()
         textInView.font = UIFont(name:"HelveticaNeue-Bold", size: previewFontSize/2.5)
     }
     func loadCollections(){
@@ -63,6 +63,13 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         textCollectionView.delegate = self
         dividerCollectionView.dataSource = self
         dividerCollectionView.delegate = self
+    }
+    func refresh(){
+        previewView.backgroundColor = UserDefaults.standard.color(forKey: "previewView")
+        previewFontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
+        textInView.textColor = UserDefaults.standard.color(forKey: "textColor")
+        dividerInView1.backgroundColor = UserDefaults.standard.color(forKey: "dividerColor")
+        dividerInView2.backgroundColor = UserDefaults.standard.color(forKey: "dividerColor")
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.backgroundCollectionView{
@@ -155,8 +162,15 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         dismiss(animated: true, completion: nil)
     }
     @objc func saveButton(sender:UIButton){
-        passDataBackDelegate.choices(passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize, viewStayOnPassed: viewStayOn)
+        passDataBackDelegate.choices(passedDividerColor: dividerInView1.backgroundColor,passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize, viewStayOnPassed: viewStayOn)
+        UserDefaults.standard.set(dividerInView1.backgroundColor, forKey: "dividerColor")
+        print(UserDefaults.standard.color(forKey: "dividerColor"))
+        print(dividerInView1.backgroundColor)
+        UserDefaults.standard.set(textInView.textColor, forKey: "textColor")
+        UserDefaults.standard.set(previewView.backgroundColor, forKey: "previewView")
+        UserDefaults.standard.set(previewFontSize, forKey: "fontSize")
         dismiss(animated: true, completion: nil)
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -164,3 +178,31 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     }
 }
 
+extension UserDefaults {
+    
+    func color(forKey key: String) -> UIColor? {
+        
+        guard let colorData = data(forKey: key) else { return nil }
+        
+        do {
+            return try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
+        } catch let error {
+            print("color error \(error.localizedDescription)")
+            return nil
+        }
+        
+    }
+    
+    func set(_ value: UIColor?, forKey key: String) {
+        
+        guard let color = value else { return }
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false)
+            set(data, forKey: key)
+        } catch let error {
+            print("error color key data not saved \(error.localizedDescription)")
+        }
+        
+    }
+    
+}

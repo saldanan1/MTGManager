@@ -21,8 +21,8 @@ class LifeViewController2Players: UIViewController{
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
     
-    var PlayerOneName: String! = ""
-    var PlayerTwoName: String! = ""
+    var playerOneName: String! = ""
+    var playerTwoName: String! = ""
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -31,15 +31,23 @@ class LifeViewController2Players: UIViewController{
         super.viewDidLoad()
         manageLifeTotals()
         refresh()
-        manageLifeChangeButtons()
+        manageView()
         loadDividers()
         loadBackButton()
+        loadUserDefaults()
     }
     override func viewWillAppear(_ animated: Bool){
         refresh()
         if (viewStayOn == true){
             UIApplication.shared.isIdleTimerDisabled = true
         }
+    }
+    func loadUserDefaults(){
+        backgroundColor = UserDefaults.standard.color(forKey: "previewView")
+        dividerColor = UserDefaults.standard.color(forKey: "dividerColor")
+        
+        Player1Label.textColor = UserDefaults.standard.color(forKey: "textColor")
+        Player2Label.textColor = UserDefaults.standard.color(forKey: "textColor")
     }
     func refresh(){
         holderTextColor = textColor
@@ -53,17 +61,26 @@ class LifeViewController2Players: UIViewController{
             }
         }
         for case let text as UILabel in self.view.subviews{ //select all labels in view except someLabel (in case I need to exclude some label later)
-            if (text.restorationIdentifier != "playerName"){
-                text.textColor = holderTextColor
+            if (text.restorationIdentifier != "playerNameDivider"){
+                text.textColor = UserDefaults.standard.color(forKey: "textColor")
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
                 text.sizeToFit()
             }
+            if (text.restorationIdentifier == "playerNameDivider"){
+                text.backgroundColor = dividerColor
+            }
+        }
+        for case let view as UIView in self.view.subviews{
+            if (view.restorationIdentifier == "divider"){
+                view.backgroundColor = dividerColor
+            }
         }
         Player1Label.center = CGPoint(x: view.center.x, y: 5*(view.frame.height/16))
         Player2Label.center = CGPoint(x: view.center.x, y: view.frame.height - 5*(view.frame.height/16))
+        
     }
-    func manageLifeChangeButtons(){
+    func manageView(){
         //lower down tick
         loadChangeLifeTotalButtons(cgX: 0, cgY: (view.frame.height-view.frame.height/2), cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0, playerNumber: "Player 2")
         //lower up tick
@@ -73,8 +90,8 @@ class LifeViewController2Players: UIViewController{
         //upper down tick
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0, playerNumber: "Player 1")
         
-        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: PlayerOneName)
-        loadPlayerName(cgX: 0, cgY: view.frame.height - view.frame.height/8, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: PlayerTwoName)
+        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: playerOneName)
+        loadPlayerName(cgX: 0, cgY: view.frame.height - view.frame.height/8, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: playerTwoName)
     }
     @objc func lifeChangePress(sender: UIButton) {
         UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
@@ -108,12 +125,12 @@ class LifeViewController2Players: UIViewController{
         let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
         
         let genericLabel = UILabel(frame:genericRect)
-        genericLabel.restorationIdentifier = "playerName"
+        genericLabel.restorationIdentifier = "playerNameDivider"
         genericLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
         genericLabel.textColor = UIColor.red
         genericLabel.backgroundColor = dividerColor
         genericLabel.textAlignment = NSTextAlignment.center;
-        if (playerName == PlayerOneName){
+        if (playerName == playerOneName){
             genericLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             
         }
@@ -161,25 +178,19 @@ class LifeViewController2Players: UIViewController{
         let sideRect = CGRect(x: 0, y: (view.frame.height/2)-10, width: (view.frame.width), height: 20)
         let sideView = UIView(frame: sideRect)
         sideView.backgroundColor = dividerColor
+        sideView.restorationIdentifier = "divider"
         
-        let bottomRect = CGRect(x: 0, y: view.frame.height-30, width: (view.frame.width), height: 40)
-        let bottomView = UIView(frame:bottomRect)
-        bottomView.backgroundColor = dividerColor
-        
-        let topRect = CGRect(x:0, y:0, width: (view.frame.width), height: 40)
-        let topView = UIView(frame:topRect)
-        topView.backgroundColor = dividerColor
+        let image = UIImage(named: "gear") as UIImage?
         
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
         settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
         settingsButton.clipsToBounds = true
         settingsButton.restorationIdentifier = "settings"
-        settingsButton.backgroundColor = .red
+        settingsButton.backgroundColor = .clear
+        settingsButton.setImage(image, for: .normal)
         settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
         
-        //self.view.addSubview(topView)
-        //self.view.addSubview(bottomView)
         self.view.addSubview(sideView)
         self.view.addSubview(settingsButton)
     }
@@ -200,11 +211,12 @@ class LifeViewController2Players: UIViewController{
     }
 }
 extension LifeViewController2Players : passDataBack{
-    func choices(passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
+    func choices(passedDividerColor: UIColor!, passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
         fontSize = passedFontSize
         viewStayOn = viewStayOnPassed
+        dividerColor = passedDividerColor
     }
 }
 
