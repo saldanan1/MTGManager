@@ -385,9 +385,11 @@
                         <outlet property="dividerCollectionView" destination="WLC-eg-1JU" id="Md6-jW-OOO"/>
                         <outlet property="dividerInView1" destination="2A9-aH-Mei" id="dZQ-Xh-3iU"/>
                         <outlet property="dividerInView2" destination="de1-1d-pdZ" id="85L-d0-TMA"/>
+                        <outlet property="keepScreenOnSwitch" destination="9Xk-ua-bIj" id="I4h-bQ-ifA"/>
                         <outlet property="previewView" destination="BuI-K4-9i6" id="CNc-df-GB6"/>
                         <outlet property="textCollectionView" destination="joY-gU-GtW" id="SWn-AH-2NK"/>
                         <outlet property="textInView" destination="oUy-Hd-mGj" id="443-p5-siU"/>
+                        <outlet property="textSizeSlider" destination="0SR-DE-hDO" id="5KG-jC-arf"/>
                         <segue destination="b0D-f4-x2m" kind="show" identifier="back5p" id="8Nj-Qc-2QZ"/>
                     </connections>
                 </viewController>

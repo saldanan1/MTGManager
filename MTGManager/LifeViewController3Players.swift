@@ -14,10 +14,8 @@ class LifeViewController3Players: UIViewController{
     var lifeTotalP2: Int!
     var lifeTotalP3: Int!
     
-    var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var dividerColor: UIColor! = .gray
-    var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
@@ -48,6 +46,8 @@ class LifeViewController3Players: UIViewController{
     func loadUserDefaults(){
         backgroundColor = UserDefaults.standard.color(forKey: "previewView")
         dividerColor = UserDefaults.standard.color(forKey: "dividerColor")
+        fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
+        textColor = UserDefaults.standard.color(forKey: "textColor")
         
         Player1Label.textColor = UserDefaults.standard.color(forKey: "textColor")
         Player2Label.textColor = UserDefaults.standard.color(forKey: "textColor")
@@ -58,7 +58,6 @@ class LifeViewController3Players: UIViewController{
         Player2Label.text = String(lifeTotalP2)
         Player3Label.text = String(lifeTotalP3)
         
-        holderTextColor = textColor
         
         for case let button as UIButton in self.view.subviews {
             if (button.restorationIdentifier != "settings"){
@@ -98,33 +97,31 @@ class LifeViewController3Players: UIViewController{
         //player 3 (right side, bottom life) up tick
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 3")
         
-        //loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height, playerName: playerOneName)
+        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height, playerName: playerOneName)
         
         //loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height, playerName: playerTwoName)
     }
     func loadPlayerName(cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, playerName: String){
         let genericRect = CGRect(x: cgX, y: cgY, width: cgWidth, height: cgHeight)
-        let genericView = UIView(frame: genericRect)
         
-        genericView.backgroundColor = dividerColor
-        let genericLabel = UILabel()
+        let genericNameButton = UIButton(frame: genericRect)
         if (playerName == playerOneName){
-            genericLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            //genericLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         }
         else{
-            genericLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+            //genericLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         }
-        genericLabel.center = genericView.center
-        genericLabel.restorationIdentifier = "playerNameDivider"
-        genericLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 60)
-        genericLabel.textColor = .blue
-        genericLabel.textAlignment = NSTextAlignment.center;
-        genericLabel.text = playerName
-        genericLabel.sizeToFit()
+        //genericNameButton.center = genericView.center
+        genericNameButton.restorationIdentifier = "playerNameDivider"
+        genericNameButton.titleLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 60)
+        genericNameButton.titleLabel?.textColor = .blue
+        genericNameButton.titleLabel?.textAlignment = NSTextAlignment.center;
+        genericNameButton.titleLabel?.text = playerName
+        genericNameButton.backgroundColor = .red
+        genericNameButton.sizeToFit()
         
-        genericView.addSubview(genericLabel)
-        self.view.addSubview(genericView)
-        view.bringSubviewToFront(genericLabel)
+        self.view.addSubview(genericNameButton)
+        self.view.bringSubviewToFront(genericNameButton)
     }
     @objc func lifeChangePress(sender: UIButton) {
         UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
@@ -230,7 +227,9 @@ class LifeViewController3Players: UIViewController{
         settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
         settingsButton.clipsToBounds = true
         settingsButton.restorationIdentifier = "settings"
-        settingsButton.backgroundColor = .red
+        settingsButton.backgroundColor = .clear
+        let image = UIImage(named: "gear") as UIImage?
+        settingsButton.setImage(image, for: .normal)
         settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
         
         self.view.addSubview(sideView)

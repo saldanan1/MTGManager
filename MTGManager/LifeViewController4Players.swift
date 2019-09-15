@@ -16,10 +16,8 @@ class LifeViewController4Players: UIViewController{
     var lifeTotalP3: Int!
     var lifeTotalP4: Int!
     
-    var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var dividerColor: UIColor! = .gray
-    var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
@@ -36,6 +34,7 @@ class LifeViewController4Players: UIViewController{
         refresh()
         loadDividers()
         loadBackButton()
+        loadUserDefaults()
     }
     override func viewWillAppear(_ animated: Bool) {
         refresh()
@@ -43,15 +42,22 @@ class LifeViewController4Players: UIViewController{
             UIApplication.shared.isIdleTimerDisabled = true
         }
     }
-    func refresh(){
-        self.view.backgroundColor = backgroundColor
+    func loadUserDefaults(){
+        backgroundColor = UserDefaults.standard.color(forKey: "previewView")
+        dividerColor = UserDefaults.standard.color(forKey: "dividerColor")
+        fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
+        textColor = UserDefaults.standard.color(forKey: "textColor")
         
+        Player1Label.textColor = UserDefaults.standard.color(forKey: "textColor")
+        Player2Label.textColor = UserDefaults.standard.color(forKey: "textColor")
+        Player3Label.textColor = UserDefaults.standard.color(forKey: "textColor")
+        Player4Label.textColor = UserDefaults.standard.color(forKey: "textColor")
+    }
+    func refresh(){
         Player1Label.text = String(lifeTotalP1)
         Player2Label.text = String(lifeTotalP2)
         Player3Label.text = String(lifeTotalP3)
         Player4Label.text = String(lifeTotalP4)
-        
-        holderTextColor = textColor
         
         for case let button as UIButton in self.view.subviews {
             if (button.restorationIdentifier != "settings"){
@@ -60,10 +66,15 @@ class LifeViewController4Players: UIViewController{
         }
         for case let text as UILabel in self.view.subviews{
             if (text.restorationIdentifier != "someLabel"){
-                text.textColor = holderTextColor
+                text.textColor = textColor
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
                 text.sizeToFit()
+            }
+        }
+        for case let view as UIView in self.view.subviews{
+            if (view.restorationIdentifier == "divider"){
+                view.backgroundColor = dividerColor
             }
         }
     }
@@ -196,30 +207,24 @@ class LifeViewController4Players: UIViewController{
     func loadDividers(){
         let middleRect = CGRect(x: (view.frame.width / 2)-10, y: 0, width: 20, height: view.frame.height)
         let middleView = UIView(frame: middleRect)
-        middleView.backgroundColor = customYellow
+        middleView.backgroundColor = dividerColor
+        middleView.restorationIdentifier = "divider"
         
         let fullSideRect = CGRect(x: 0, y: (view.frame.height/2)-10, width: view.frame.width, height: 20)
         let fullSideView = UIView(frame: fullSideRect)
-        fullSideView.backgroundColor = customYellow
-        
-        let bottomRect = CGRect(x: 0, y: view.frame.height-40, width: (view.frame.width), height: 40)
-        let bottomView = UIView(frame:bottomRect)
-        bottomView.backgroundColor = customYellow
-        
-        let topRect = CGRect(x:0, y:0, width: (view.frame.width), height: 40)
-        let topView = UIView(frame:topRect)
-        topView.backgroundColor = customYellow
+        fullSideView.backgroundColor = dividerColor
+        fullSideView.restorationIdentifier = "divider"
         
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
         settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
         settingsButton.clipsToBounds = true
         settingsButton.restorationIdentifier = "settings"
-        settingsButton.backgroundColor = .red
+        settingsButton.backgroundColor = .clear
+        let image = UIImage(named: "gear") as UIImage?
+        settingsButton.setImage(image, for: .normal)
         settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
         
-        //self.view.addSubview(topView)
-        //self.view.addSubview(bottomView)
         self.view.addSubview(fullSideView)
         self.view.addSubview(middleView)
         self.view.addSubview(settingsButton)

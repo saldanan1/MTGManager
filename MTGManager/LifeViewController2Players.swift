@@ -13,10 +13,8 @@ class LifeViewController2Players: UIViewController{
     var lifeTotalP1: Int!
     var lifeTotalP2: Int!
     
-    var customYellow: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var dividerColor: UIColor! = .gray
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
-    var holderTextColor: UIColor!
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
@@ -45,12 +43,12 @@ class LifeViewController2Players: UIViewController{
     func loadUserDefaults(){
         backgroundColor = UserDefaults.standard.color(forKey: "previewView")
         dividerColor = UserDefaults.standard.color(forKey: "dividerColor")
+        fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
         
         Player1Label.textColor = UserDefaults.standard.color(forKey: "textColor")
         Player2Label.textColor = UserDefaults.standard.color(forKey: "textColor")
     }
     func refresh(){
-        holderTextColor = textColor
         
         Player1Label.text = String(lifeTotalP1);
         Player2Label.text = String(lifeTotalP2);

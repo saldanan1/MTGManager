@@ -21,6 +21,9 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     @IBOutlet weak var dividerInView1: UIView!
     @IBOutlet weak var dividerInView2: UIView!
     
+    @IBOutlet weak var textSizeSlider: UISlider!
+    @IBOutlet weak var keepScreenOnSwitch: UISwitch!
+    
     var arrayOfColors: [UIColor] = [.red, .black, .blue, .gray, .darkGray, .brown, .cyan, .green, .magenta, .orange]
     var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
     var holderColor: UIColor = .red
@@ -43,9 +46,11 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     @IBAction func viewStayOnChanged(_ sender: UISwitch) {
         if(sender.isOn == true){
             viewStayOn = true
+            UserDefaults.standard.set(true, forKey: "keepScreenOn")
         }
         else if (sender.isOn == false){
             viewStayOn = false
+            UserDefaults.standard.set(false, forKey: "keepScreenOn")
         }
     }
     @IBAction func fontChanged(_ sender: UISlider) {
@@ -65,6 +70,13 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         dividerCollectionView.delegate = self
     }
     func refresh(){
+        if (UserDefaults.standard.bool(forKey: "keepScreenOn")){
+            keepScreenOnSwitch.isOn = true
+        }
+        else{
+            keepScreenOnSwitch.isOn = false
+        }
+        textSizeSlider.value = UserDefaults.standard.float(forKey: "fontSize")
         previewView.backgroundColor = UserDefaults.standard.color(forKey: "previewView")
         previewFontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
         textInView.textColor = UserDefaults.standard.color(forKey: "textColor")
@@ -164,8 +176,6 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     @objc func saveButton(sender:UIButton){
         passDataBackDelegate.choices(passedDividerColor: dividerInView1.backgroundColor,passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize, viewStayOnPassed: viewStayOn)
         UserDefaults.standard.set(dividerInView1.backgroundColor, forKey: "dividerColor")
-        print(UserDefaults.standard.color(forKey: "dividerColor"))
-        print(dividerInView1.backgroundColor)
         UserDefaults.standard.set(textInView.textColor, forKey: "textColor")
         UserDefaults.standard.set(previewView.backgroundColor, forKey: "previewView")
         UserDefaults.standard.set(previewFontSize, forKey: "fontSize")
