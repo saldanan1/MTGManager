@@ -22,6 +22,11 @@ class LifeViewController4Players: UIViewController{
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
     
+    var playerOneName: String! = ""
+    var playerTwoName: String! = ""
+    var playerThreeName: String! = ""
+    var playerFourName: String! = ""
+    
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
     @IBOutlet weak var Player3Label: UILabel!
@@ -101,6 +106,44 @@ class LifeViewController4Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 4")
         //player 4 (left side, top life) up tick
         loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 4")
+        
+        //player 1 name label/button
+        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerOneName)
+        
+        //player 2 name label/button
+        loadPlayerName(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerTwoName)
+        
+        //player 3 name label/button
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerThreeName)
+        
+        //player 4 name label/button
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: view.frame.height/2, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerFourName)
+    }
+    func loadPlayerName(cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, playerName: String){
+        var widthToAdd: CGFloat = 0.0
+        if (playerName == playerOneName || playerName == playerTwoName){
+            widthToAdd = cgWidth/4
+        }
+        else{
+            widthToAdd = -cgWidth/4
+        }
+        
+        let genericRect = CGRect(x: cgX + widthToAdd, y: cgY, width: cgWidth, height: cgHeight)
+        let genericNameButton = UIButton(frame: genericRect)
+        if (playerName == playerOneName || playerName == playerTwoName){
+            genericNameButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+        }
+        else{
+            genericNameButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+        }
+        genericNameButton.restorationIdentifier = "playerNameDivider"
+        genericNameButton.titleLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
+        genericNameButton.setTitleColor(.blue, for: .normal)
+        genericNameButton.setTitle(playerName, for: .normal)
+        genericNameButton.backgroundColor = dividerColor
+        genericNameButton.sizeToFit()
+        
+        self.view.addSubview(genericNameButton)
     }
     @objc func lifeChangePress(sender: UIButton) {
         UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
@@ -183,25 +226,25 @@ class LifeViewController4Players: UIViewController{
         Player1Label.textColor = textColor;
         Player1Label.text = String(lifeTotalP1)
         Player1Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
-        Player1Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height/4)
+        Player1Label.center = CGPoint(x: view.frame.width - 5*(view.frame.width/16), y: view.frame.height/4)
         Player1Label.textAlignment = .center
         
         Player2Label.textColor = textColor;
         Player2Label.text = String(lifeTotalP2)
         Player2Label.transform = CGAffineTransform(rotationAngle: -(CGFloat.pi / 2))
-        Player2Label.center = CGPoint(x: view.frame.width - view.frame.width/4, y: view.frame.height - view.frame.height/4)
+        Player2Label.center = CGPoint(x: view.frame.width - 5*(view.frame.width/16), y: view.frame.height - view.frame.height/4)
         Player2Label.textAlignment = .center
         
         Player3Label.textColor = textColor;
         Player3Label.text = String(lifeTotalP3)
         Player3Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
-        Player3Label.center = CGPoint(x: view.frame.width/4, y: view.frame.height - view.frame.height/4)
+        Player3Label.center = CGPoint(x: 5*(view.frame.width/16), y: view.frame.height - view.frame.height/4)
         Player3Label.textAlignment = .center
         
         Player4Label.textColor = textColor;
         Player4Label.text = String(lifeTotalP4)
         Player4Label.transform = CGAffineTransform(rotationAngle: (CGFloat.pi / 2))
-        Player4Label.center = CGPoint(x: view.frame.width/4, y: view.frame.height/4)
+        Player4Label.center = CGPoint(x: 5*(view.frame.width/16), y: view.frame.height/4)
         Player4Label.textAlignment = .center
     }
     func loadDividers(){

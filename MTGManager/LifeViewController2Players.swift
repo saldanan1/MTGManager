@@ -88,7 +88,10 @@ class LifeViewController2Players: UIViewController{
         //upper down tick
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/2, buttonName: 0, playerNumber: "Player 1")
         
+        //player 1 name label/button
         loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: playerOneName)
+        
+        //player 2 name label/button
         loadPlayerName(cgX: 0, cgY: view.frame.height - view.frame.height/8, cgWidth: view.frame.width, cgHeight: view.frame.height/8, playerName: playerTwoName)
     }
     @objc func lifeChangePress(sender: UIButton) {

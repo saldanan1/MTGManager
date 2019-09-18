@@ -119,6 +119,7 @@ class ViewController: UIViewController{
         UserDefaults.standard.set(textColor, forKey: "textColor")
         UserDefaults.standard.set(UIColor.darkGray, forKey: "previewView")
         UserDefaults.standard.set(UIColor.gray, forKey: "dividerColor")
+        UserDefaults.standard.set(45, forKey: "fontSize")
     }
     override func viewWillAppear(_ animated: Bool) {
         createPlayerInputFields()
@@ -149,10 +150,19 @@ class ViewController: UIViewController{
         else if segue.destination is LifeViewController4Players{
             let vc = segue.destination as? LifeViewController4Players
             vc?.lifeTotalT = lifeTotal
+            vc?.playerOneName = playerOneText.text
+            vc?.playerTwoName = playerTwoText.text
+            vc?.playerThreeName = playerThreeText.text
+            vc?.playerFourName = playerFourText.text
         }
         else if segue.destination is LifeViewController5Players{
             let vc = segue.destination as? LifeViewController5Players
             vc?.lifeTotalT = lifeTotal
+            vc?.playerOneName = playerOneText.text
+            vc?.playerTwoName = playerTwoText.text
+            vc?.playerThreeName = playerThreeText.text
+            vc?.playerFourName = playerFourText.text
+            vc?.playerFiveName = playerFiveText.text
         }
     }
     @IBAction func startClicked(_ sender: Any) {
