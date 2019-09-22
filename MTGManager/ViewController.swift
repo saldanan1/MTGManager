@@ -104,7 +104,6 @@ class ViewController: UIViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        createPlayerInputFields()
         loadUserDefaults()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -116,19 +115,14 @@ class ViewController: UIViewController{
         view.frame.origin.y = 0
     }
     func loadUserDefaults(){
-        UserDefaults.standard.set(textColor, forKey: "textColor")
-        UserDefaults.standard.set(UIColor.darkGray, forKey: "previewView")
-        UserDefaults.standard.set(UIColor.gray, forKey: "dividerColor")
-        UserDefaults.standard.set(45, forKey: "fontSize")
+        UserDefaults.standard.set(UIColor(red: 107/255, green: 122/255, blue: 143/255, alpha: 1), forKey: "textColor")
+        UserDefaults.standard.set(UIColor(red: 220/255, green: 199/255, blue: 170/255, alpha: 1), forKey: "previewView") //blueberry blue
+        UserDefaults.standard.set(.darkGray, forKey: "dividerColor") //apple core tan
+        //UIColor(red: 247/255, green: 195/255, blue: 49/255, alpha: 1)
+        UserDefaults.standard.set(self.view.frame.width*0.350, forKey: "fontSize") //font size scalability based on screen width... play with this more, only 3rd attempt
+        UserDefaults.standard.set(UIColor(red: 247/255, green: 136/255, blue: 47/255, alpha: 1), forKey: "playerNameColor")
     }
     override func viewWillAppear(_ animated: Bool) {
-        createPlayerInputFields()
-    }
-    func createPlayerInputFields(){
-        let textFieldRect = CGRect(x: 0, y: view.frame.height - view.frame.height/2, width: view.frame.width, height:  view.frame.height - view.frame.height/2)
-        
-        let player1Label = UILabel(frame:textFieldRect)
-        let player2Label = UILabel(frame:textFieldRect)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {

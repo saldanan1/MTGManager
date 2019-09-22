@@ -9,17 +9,19 @@
 import UIKit
 
 protocol passDataBack {
-    func choices(passedDividerColor: UIColor!, passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!)
+    func choices(passedDividerColor: UIColor!, passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!, passedPlayerNameColor: UIColor!)
 }
 class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     @IBOutlet weak var backgroundCollectionView: UICollectionView!
     @IBOutlet weak var textCollectionView: UICollectionView!
     @IBOutlet weak var dividerCollectionView: UICollectionView!
+    @IBOutlet weak var playerNameCollectionView: UICollectionView!
     
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var textInView: UILabel!
     @IBOutlet weak var dividerInView1: UIView!
     @IBOutlet weak var dividerInView2: UIView!
+    @IBOutlet weak var playerName: UILabel!
     
     @IBOutlet weak var textSizeSlider: UISlider!
     @IBOutlet weak var keepScreenOnSwitch: UISwitch!
@@ -33,6 +35,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
     let backgroundCollectionViewIndentifier = "backgroundCollection"
     let textCollectionViewIdentifier = "textCollection"
     let dividerCollectionViewIdentifier = "dividerCollection"
+    let playerNameCollectionViewIdentifier = "playerCollection"
     
     var passDataBackDelegate: passDataBack!
     
@@ -68,6 +71,8 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         textCollectionView.delegate = self
         dividerCollectionView.dataSource = self
         dividerCollectionView.delegate = self
+        playerNameCollectionView.dataSource = self
+        playerNameCollectionView.delegate = self
     }
     func refresh(){
         if (UserDefaults.standard.bool(forKey: "keepScreenOn")){
@@ -82,6 +87,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         textInView.textColor = UserDefaults.standard.color(forKey: "textColor")
         dividerInView1.backgroundColor = UserDefaults.standard.color(forKey: "dividerColor")
         dividerInView2.backgroundColor = UserDefaults.standard.color(forKey: "dividerColor")
+        playerName.textColor = UserDefaults.standard.color(forKey: "playerNameColor")
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.backgroundCollectionView{
@@ -117,7 +123,7 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
             
             return cellB
         }
-        else{
+        else if (collectionView == self.dividerCollectionView){
             let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: dividerCollectionViewIdentifier, for: indexPath) as UICollectionViewCell
             let colorView = UIButton(frame: cellC.contentView.frame)
             colorView.backgroundColor = arrayOfColors[indexPath.row]
@@ -126,6 +132,16 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
             cellC.addSubview(colorView)
             
             return cellC
+        }
+        else{
+            let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: playerNameCollectionViewIdentifier, for: indexPath) as UICollectionViewCell
+            let colorView = UIButton(frame: cellD.contentView.frame)
+            colorView.backgroundColor = arrayOfColors[indexPath.row]
+            colorView.tag = indexPath.row
+            colorView.addTarget(self, action: #selector(playerNameColor(sender:)), for: UIControl.Event.touchDown)
+            cellD.addSubview(colorView)
+            
+            return cellD
         }
     }
     @objc func backgroundColor(sender: UIButton){
@@ -140,6 +156,10 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         let holderColor = arrayOfColors[sender.tag]
         dividerInView1.backgroundColor = holderColor
         dividerInView2.backgroundColor = holderColor
+    }
+    @objc func playerNameColor(sender: UIButton){
+        let holderColor = arrayOfColors[sender.tag]
+        playerName.textColor = holderColor
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -174,11 +194,12 @@ class SettingsView: UIViewController, UICollectionViewDataSource, UICollectionVi
         dismiss(animated: true, completion: nil)
     }
     @objc func saveButton(sender:UIButton){
-        passDataBackDelegate.choices(passedDividerColor: dividerInView1.backgroundColor,passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize, viewStayOnPassed: viewStayOn)
+        passDataBackDelegate.choices(passedDividerColor: dividerInView1.backgroundColor,passedTextColor: textInView.textColor, passedBackgroundColor: previewView.backgroundColor, passedFontSize: previewFontSize, viewStayOnPassed: viewStayOn, passedPlayerNameColor: playerName.textColor)
         UserDefaults.standard.set(dividerInView1.backgroundColor, forKey: "dividerColor")
         UserDefaults.standard.set(textInView.textColor, forKey: "textColor")
         UserDefaults.standard.set(previewView.backgroundColor, forKey: "previewView")
         UserDefaults.standard.set(previewFontSize, forKey: "fontSize")
+        UserDefaults.standard.set(playerName.textColor, forKey: "playerNameColor")
         dismiss(animated: true, completion: nil)
         
     }

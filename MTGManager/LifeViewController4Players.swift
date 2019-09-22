@@ -21,11 +21,20 @@ class LifeViewController4Players: UIViewController{
     var backgroundColor: UIColor! = .darkGray
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
+    var playerNameColor: UIColor! = .black
     
     var playerOneName: String! = ""
     var playerTwoName: String! = ""
     var playerThreeName: String! = ""
     var playerFourName: String! = ""
+    @IBOutlet weak var plusTopLeft: UILabel!
+    @IBOutlet weak var minusTopLeft: UILabel!
+    @IBOutlet weak var plusBottomLeft: UILabel!
+    @IBOutlet weak var minusBottomLeft: UILabel!
+    @IBOutlet weak var plusTopRight: UILabel!
+    @IBOutlet weak var minusTopRight: UILabel!
+    @IBOutlet weak var plusBottomRight: UILabel!
+    @IBOutlet weak var minusBottomRight: UILabel!
     
     @IBOutlet weak var Player1Label: UILabel!
     @IBOutlet weak var Player2Label: UILabel!
@@ -40,6 +49,7 @@ class LifeViewController4Players: UIViewController{
         loadDividers()
         loadBackButton()
         loadUserDefaults()
+        handlePlusMinus()
     }
     override func viewWillAppear(_ animated: Bool) {
         refresh()
@@ -52,11 +62,48 @@ class LifeViewController4Players: UIViewController{
         dividerColor = UserDefaults.standard.color(forKey: "dividerColor")
         fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
         textColor = UserDefaults.standard.color(forKey: "textColor")
+        playerNameColor = UserDefaults.standard.color(forKey: "playerNameColor")
         
         Player1Label.textColor = UserDefaults.standard.color(forKey: "textColor")
         Player2Label.textColor = UserDefaults.standard.color(forKey: "textColor")
         Player3Label.textColor = UserDefaults.standard.color(forKey: "textColor")
         Player4Label.textColor = UserDefaults.standard.color(forKey: "textColor")
+    }
+    func handlePlusMinus(){
+        for case let text as UILabel in self.view.subviews{
+            if (text.accessibilityIdentifier == "plusMinusButtons"){
+                text.textColor = textColor
+                text.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
+                self.view.bringSubviewToFront(text)
+            }
+        }
+        plusTopLeft.center.x = self.view.frame.width/4
+        plusTopLeft.center.y = self.view.center.y - self.view.frame.height/12
+        
+        minusTopLeft.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+        minusTopLeft.center.x = self.view.frame.width/4
+        minusTopLeft.center.y = self.view.frame.height/12
+        
+        plusBottomLeft.center.x = view.frame.width/4
+        plusBottomLeft.center.y = self.view.frame.height - self.view.frame.height/12
+        
+        minusBottomLeft.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+        minusBottomLeft.center.x = self.view.frame.width/4
+        minusBottomLeft.center.y = self.view.center.y +  self.view.frame.height/12
+        
+        plusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
+        plusTopRight.center.y = self.view.frame.height/12
+        
+        minusTopRight.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+        minusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
+        minusTopRight.center.y = self.view.center.y - self.view.frame.height/12
+        
+        plusBottomRight.center.x = self.view.center.x + self.view.frame.width/4
+        plusBottomRight.center.y = self.view.center.y + self.view.frame.height/12
+        
+        minusBottomRight.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+        minusBottomRight.center.x = self.view.frame.width - self.view.frame.width/4
+        minusBottomRight.center.y = self.view.frame.height - self.view.frame.height/12
     }
     func refresh(){
         Player1Label.text = String(lifeTotalP1)
@@ -68,9 +115,12 @@ class LifeViewController4Players: UIViewController{
             if (button.restorationIdentifier != "settings"){
                 button.backgroundColor = backgroundColor
             }
+            if (button.restorationIdentifier == "playerNameText"){
+                button.setTitleColor(playerNameColor, for: .normal)
+            }
         }
         for case let text as UILabel in self.view.subviews{
-            if (text.restorationIdentifier != "someLabel"){
+            if (text.restorationIdentifier != "someLabel" && text.accessibilityIdentifier != "plusMinusButtons"){
                 text.textColor = textColor
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: fontSize)
@@ -97,14 +147,14 @@ class LifeViewController4Players: UIViewController{
         //player 2 (right side, bottom life) up tick
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 2")
         
-        //player 3 (left side, bottom life) down tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 3")
         //player 3 (left side, bottom life) up tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 3")
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 3")
+        //player 3 (left side, bottom life) down tick
+        loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 3")
         
-        //player 4 (left side, top life) down tick
-        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 4")
         //player 4 (left side, top life) up tick
+        loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 4")
+        //player 4 (left side, top life) down tick
         loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 4")
         
         //player 1 name label/button
@@ -136,7 +186,7 @@ class LifeViewController4Players: UIViewController{
         else{
             genericNameButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         }
-        genericNameButton.restorationIdentifier = "playerNameDivider"
+        genericNameButton.restorationIdentifier = "playerNameText"
         genericNameButton.titleLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
         genericNameButton.setTitleColor(.blue, for: .normal)
         genericNameButton.setTitle(playerName, for: .normal)
@@ -146,17 +196,17 @@ class LifeViewController4Players: UIViewController{
         self.view.addSubview(genericNameButton)
     }
     @objc func lifeChangePress(sender: UIButton) {
-        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
-            sender.backgroundColor = .black
-            sender.setTitle("", for: .normal)
-            sender.setTitleColor(.white, for: .normal)
-            sender.backgroundColor = self.backgroundColor
-            
-            self.view.bringSubviewToFront(self.Player1Label)
-            self.view.bringSubviewToFront(self.Player2Label)
-            self.view.bringSubviewToFront(self.Player3Label)
-            self.view.bringSubviewToFront(self.Player4Label)
-        })
+//        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
+//            sender.backgroundColor = .black
+//            sender.setTitle("", for: .normal)
+//            sender.setTitleColor(.white, for: .normal)
+//            sender.backgroundColor = self.backgroundColor
+//            
+//            self.view.bringSubviewToFront(self.Player1Label)
+//            self.view.bringSubviewToFront(self.Player2Label)
+//            self.view.bringSubviewToFront(self.Player3Label)
+//            self.view.bringSubviewToFront(self.Player4Label)
+//        })
         if (sender.tag == 1){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
@@ -195,7 +245,7 @@ class LifeViewController4Players: UIViewController{
         let genericButton = UIButton(frame: genericRect)
         genericButton.tag = buttonName
         genericButton.restorationIdentifier = playerNumber
-        genericButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
+        genericButton.setTitleColor(UserDefaults.standard.color(forKey: "playerNameColor"), for: .normal)
         genericButton.addTarget(self, action: #selector(lifeChangePress(sender:)), for: UIControl.Event.touchDown)
         
         self.view.addSubview(genericButton)
@@ -278,7 +328,7 @@ class LifeViewController4Players: UIViewController{
         present(settingsVC, animated: true, completion: nil)
     }
     @objc func backButton(sender: UIButton) {
-        let alert = UIAlertController(title: "Are you sure?", message: "", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Confirm", message: "Quit to the main menu?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { action in
             self.dismiss(animated: true, completion: nil)
         }))
@@ -289,11 +339,12 @@ class LifeViewController4Players: UIViewController{
     }
 }
 extension LifeViewController4Players : passDataBack{
-    func choices(passedDividerColor: UIColor!,passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!) {
+    func choices(passedDividerColor: UIColor!,passedTextColor: UIColor!, passedBackgroundColor: UIColor!, passedFontSize: CGFloat!, viewStayOnPassed: Bool!, passedPlayerNameColor: UIColor!) {
         backgroundColor = passedBackgroundColor
         textColor = passedTextColor
         fontSize = passedFontSize
         viewStayOn = viewStayOnPassed
         dividerColor = passedDividerColor
+        playerNameColor = passedPlayerNameColor
     }
 }
