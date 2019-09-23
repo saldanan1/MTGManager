@@ -81,41 +81,37 @@ class LifeViewController5Players: UIViewController{
             if (text.accessibilityIdentifier == "plusMinusButtons"){
                 text.textColor = textColor
                 text.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
+                text.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
                 self.view.bringSubviewToFront(text)
             }
         }
-        plusTopLeft.center.x = self.view.frame.width/4
-        plusTopLeft.center.y = self.view.center.y - self.view.frame.height/24
+        plusTopLeft.center.x = 7*(self.view.frame.width/24) //halfway between 1/4 and 1/3
+        plusTopLeft.center.y = self.view.center.y - self.view.frame.height/8
         
-        minusTopLeft.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
-        minusTopLeft.center.x = self.view.frame.width/4
-        minusTopLeft.center.y = self.view.frame.height/22
+        minusTopLeft.center.x = 7*(self.view.frame.width/24)
+        minusTopLeft.center.y = self.view.frame.height/8
         
-        plusBottomLeft.center.x = self.view.frame.width/4
-        plusBottomLeft.center.y = self.view.frame.height - self.view.frame.height/24
+        plusBottomLeft.center.x = 7*(self.view.frame.width/24)
+        plusBottomLeft.center.y = self.view.frame.height - self.view.frame.height/8
         
-        minusBottomLeft.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
-        minusBottomLeft.center.x = self.view.frame.width/4
-        minusBottomLeft.center.y = self.view.center.y + self.view.frame.height/24
+        minusBottomLeft.center.x = 7*(self.view.frame.width/24)
+        minusBottomLeft.center.y = self.view.center.y + self.view.frame.height/8
         
         plusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
-        plusTopRight.center.y = self.view.frame.height/22
+        plusTopRight.center.y = (self.view.frame.height/20)
         
-        minusTopRight.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         minusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
-        minusTopRight.center.y = self.view.center.y - self.view.frame.height/5
+        minusTopRight.center.y = self.view.center.y - 5*(self.view.frame.height/24)
         
         plusMiddleRight.center.x = self.view.center.x + self.view.frame.width/4
         plusMiddleRight.center.y = self.view.center.y - self.view.frame.height/8
         
-        minusMiddleRight.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         minusMiddleRight.center.x = self.view.center.x + self.view.frame.width/4
         minusMiddleRight.center.y = self.view.center.y + self.view.frame.height/8
         
         plusBottomRight.center.x = self.view.center.x + self.view.frame.width/4
         plusBottomRight.center.y = self.view.center.y + self.view.frame.height/5
         
-        minusBottomRight.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         minusBottomRight.center.x = self.view.frame.width - self.view.frame.width/4
         minusBottomRight.center.y = self.view.frame.height - self.view.frame.height/24
     }
@@ -179,19 +175,19 @@ class LifeViewController5Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: 0, cgY: view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 1, playerNumber: "Player 5")
         
         //player 1 name label/button
-        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: "noah")
+        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerOneName)
         
         //player 2 name label/button
-        loadPlayerName(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: "123123")
+        loadPlayerName(cgX: 0, cgY: view.frame.height/2, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerTwoName)
         
         //player 3 name label/button
-        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/3, playerName: "awewwer")
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/3, playerName: playerThreeName)
         
         //player 4 name label/button
-        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: view.frame.height/3, cgWidth: view.frame.width/9, cgHeight: view.frame.height/3, playerName: "lkjdoqe")
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: view.frame.height/3, cgWidth: view.frame.width/9, cgHeight: view.frame.height/3, playerName: playerFourName)
         
         //player 5 name label/button
-        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 2*(view.frame.height/3), cgWidth: view.frame.width/9, cgHeight: view.frame.height/3, playerName: "qwejihqwee")
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 2*(view.frame.height/3), cgWidth: view.frame.width/9, cgHeight: view.frame.height/3, playerName: playerFiveName)
     }
     func loadPlayerName(cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, playerName: String){
         var widthToAdd: CGFloat = 0.0

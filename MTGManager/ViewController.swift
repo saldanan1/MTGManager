@@ -32,15 +32,6 @@ class ViewController: UIViewController{
     
     @IBOutlet var numberPlayerControl : UISegmentedControl!;
     @IBOutlet weak var lifeTotalControl: UISegmentedControl!
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for case let textField as UITextField in self.view.subviews { //select all UITextFields
-            if (textField.restorationIdentifier != "someID"){
-                textField.endEditing(true)
-            }
-        }
-    }
-    
     @IBAction func playersChanged(sender : UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -99,20 +90,11 @@ class ViewController: UIViewController{
         else if(sender.selectedSegmentIndex == 3){
             self.lifeTotal = 50;
         }
-        else if(sender.selectedSegmentIndex == 4){
-        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserDefaults()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    @objc func keyboardWillShow(notification: Notification){
-        view.frame.origin.y = -((view.frame.height)/3)
-    }
-    @objc func keyboardWillHide(notification: Notification){
-        view.frame.origin.y = 0
+        self.setupToHideKeyboardOnTapOnView()
     }
     func loadUserDefaults(){
         UserDefaults.standard.set(UIColor(red: 107/255, green: 122/255, blue: 143/255, alpha: 1), forKey: "textColor")
@@ -121,8 +103,7 @@ class ViewController: UIViewController{
         //UIColor(red: 247/255, green: 195/255, blue: 49/255, alpha: 1)
         UserDefaults.standard.set(self.view.frame.width*0.350, forKey: "fontSize") //font size scalability based on screen width... play with this more, only 3rd attempt
         UserDefaults.standard.set(UIColor(red: 247/255, green: 136/255, blue: 47/255, alpha: 1), forKey: "playerNameColor")
-    }
-    override func viewWillAppear(_ animated: Bool) {
+        UserDefaults.standard.set(true, forKey: "keepScreenOn")
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -164,4 +145,20 @@ class ViewController: UIViewController{
         performSegue(withIdentifier: segueString, sender: nil)
     }
 }
+extension UIViewController
+{
+    func setupToHideKeyboardOnTapOnView()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
 
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
+}
