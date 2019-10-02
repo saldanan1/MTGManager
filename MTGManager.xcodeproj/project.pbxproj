@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15229A1D22E74F9D00DA9C42 /* commentedCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15229A1C22E74F9D00DA9C42 /* commentedCode.swift */; };
 		15229A1F22E8936500DA9C42 /* LifeViewController3Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */; };
+		154E739E23419169004328DE /* LifeViewController1Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E739D23419169004328DE /* LifeViewController1Player.swift */; };
 		1581438E22E3F65C00D62EA3 /* LifeViewController2Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */; };
 		159BF3EB22E204EB009CD3BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF3EA22E204EB009CD3BA /* AppDelegate.swift */; };
 		159BF3ED22E204EB009CD3BA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159BF3EC22E204EB009CD3BA /* ViewController.swift */; };
@@ -40,10 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		15229A1C22E74F9D00DA9C42 /* commentedCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentedCode.swift; sourceTree = "<group>"; };
 		15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController3Players.swift; sourceTree = "<group>"; };
+		154E739D23419169004328DE /* LifeViewController1Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController1Player.swift; sourceTree = "<group>"; };
 		1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeViewController2Players.swift; sourceTree = "<group>"; };
-		159BF3E722E204EB009CD3BA /* MTGManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTGManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		159BF3E722E204EB009CD3BA /* MTGM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTGM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		159BF3EA22E204EB009CD3BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		159BF3EC22E204EB009CD3BA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		159BF3EF22E204EB009CD3BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		159BF3E822E204EB009CD3BA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				159BF3E722E204EB009CD3BA /* MTGManager.app */,
+				159BF3E722E204EB009CD3BA /* MTGM.app */,
 				159BF3FB22E204ED009CD3BA /* MTGManagerTests.xctest */,
 				159BF40622E204ED009CD3BA /* MTGManagerUITests.xctest */,
 			);
@@ -112,6 +112,7 @@
 				15ABFBF123204C7C00BD7487 /* SettingsView.swift */,
 				159BF3EA22E204EB009CD3BA /* AppDelegate.swift */,
 				159BF3EC22E204EB009CD3BA /* ViewController.swift */,
+				154E739D23419169004328DE /* LifeViewController1Player.swift */,
 				1581438D22E3F65C00D62EA3 /* LifeViewController2Players.swift */,
 				15229A1E22E8936500DA9C42 /* LifeViewController3Players.swift */,
 				15AF0B172316F4A400A37B8A /* LifeViewController4Players.swift */,
@@ -120,7 +121,6 @@
 				159BF3F122E204ED009CD3BA /* Assets.xcassets */,
 				159BF3F322E204ED009CD3BA /* LaunchScreen.storyboard */,
 				159BF3F622E204ED009CD3BA /* Info.plist */,
-				15229A1C22E74F9D00DA9C42 /* commentedCode.swift */,
 			);
 			path = MTGManager;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 			);
 			name = MTGManager;
 			productName = MTGManager;
-			productReference = 159BF3E722E204EB009CD3BA /* MTGManager.app */;
+			productReference = 159BF3E722E204EB009CD3BA /* MTGM.app */;
 			productType = "com.apple.product-type.application";
 		};
 		159BF3FA22E204ED009CD3BA /* MTGManagerTests */ = {
@@ -278,10 +278,10 @@
 				15ABFBF223204C7C00BD7487 /* SettingsView.swift in Sources */,
 				15229A1F22E8936500DA9C42 /* LifeViewController3Players.swift in Sources */,
 				15AF0B182316F4A400A37B8A /* LifeViewController4Players.swift in Sources */,
-				15229A1D22E74F9D00DA9C42 /* commentedCode.swift in Sources */,
 				159BF3EB22E204EB009CD3BA /* AppDelegate.swift in Sources */,
 				15AF0B1A2316FECF00A37B8A /* LifeViewController5Players.swift in Sources */,
 				1581438E22E3F65C00D62EA3 /* LifeViewController2Players.swift in Sources */,
+				154E739E23419169004328DE /* LifeViewController1Player.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +465,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = saldanan.MTGManager;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MTGM;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -484,7 +484,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = saldanan.MTGManager;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MTGM;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

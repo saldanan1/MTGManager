@@ -43,7 +43,6 @@ class LifeViewController3Players: UIViewController{
         refresh()
         loadDividers()
         loadUserDefaults()
-        loadBackButton()
         handlePlusMinus()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -72,11 +71,17 @@ class LifeViewController3Players: UIViewController{
                 self.view.bringSubviewToFront(text)
             }
         }
-        plusTopLeft.center.x = 7*(self.view.frame.width/24) //halfway between 1/4 and 1/3
-        plusTopLeft.center.y = self.view.center.y + self.view.frame.height/8
+        plusTopLeft.center.x = self.view.frame.width/8
+        plusTopLeft.center.y = self.view.frame.height - self.view.frame.height/16
         
-        minusBottomLeft.center.x = 7*(self.view.frame.width/24)
-        minusBottomLeft.center.y = self.view.center.y - self.view.frame.height/8
+        minusBottomLeft.center.x = self.view.frame.width/8
+        minusBottomLeft.center.y = self.view.frame.height/16
+        
+//        plusTopLeft.center.x = 7*(self.view.frame.width/24) //halfway between 1/4 and 1/3
+//        plusTopLeft.center.y = self.view.center.y + self.view.frame.height/8
+        
+//        minusBottomLeft.center.x = 7*(self.view.frame.width/24)
+//        minusBottomLeft.center.y = self.view.center.y - self.view.frame.height/8
         
         plusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
         plusTopRight.center.y = self.view.frame.height/8
@@ -104,14 +109,11 @@ class LifeViewController3Players: UIViewController{
             }
         }
         for case let text as UILabel in self.view.subviews{
-            if (text.restorationIdentifier != "someLabel" && text.accessibilityIdentifier != "plusMinusButtons"){
+            if (text.accessibilityIdentifier != "plusMinusButtons"){
                 text.textColor = textColor
                 self.view.bringSubviewToFront(text)
                 text.font = UIFont(name:"DevanagariSangamMN", size: fontSize)
                 text.sizeToFit()
-            }
-            if (text.restorationIdentifier == "playerNameDivider"){
-                text.backgroundColor = dividerColor
             }
         }
         for case let view as UIView in self.view.subviews{
@@ -137,18 +139,18 @@ class LifeViewController3Players: UIViewController{
         loadChangeLifeTotalButtons(cgX: view.frame.width/2, cgY: view.frame.height - view.frame.height/4, cgWidth: view.frame.width/2, cgHeight: view.frame.height/4, buttonName: 0, playerNumber: "Player 3")
         
         //player 1 name label/button
-        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height, playerName: playerOneName)
+        loadPlayerName(cgX: 0, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height, playerName: playerOneName, rotate90: true)
     
         //player 2 name label/button
-        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerTwoName)
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: 0, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerTwoName, rotate90: false)
         
         //player 3 name label/button
-        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: view.frame.height/2, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerThreeName)
+        loadPlayerName(cgX: view.frame.width - view.frame.width/9, cgY: view.frame.height/2, cgWidth: view.frame.width/9, cgHeight: view.frame.height/2, playerName: playerThreeName, rotate90: false)
     }
-    func loadPlayerName(cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, playerName: String){
+    func loadPlayerName(cgX: CGFloat, cgY: CGFloat, cgWidth: CGFloat, cgHeight: CGFloat, playerName: String, rotate90: Bool){
         var widthToAdd: CGFloat = 0.0
         if (playerName != ""){
-        if (playerName == playerOneName){
+        if (rotate90 == true){
             widthToAdd = cgWidth/4
         }
         else{
@@ -156,7 +158,7 @@ class LifeViewController3Players: UIViewController{
         }
         let genericRect = CGRect(x: cgX + widthToAdd, y: cgY, width: cgWidth, height: cgHeight)
         let genericNameButton = UIButton(frame: genericRect)
-        if (playerName == playerOneName){
+        if (rotate90 == true){
             genericNameButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         }
         else{
@@ -225,20 +227,6 @@ class LifeViewController3Players: UIViewController{
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    func loadBackButton(){
-        let someRect = CGRect(x: 30, y: 30, width: 40, height: 40)
-        let buttonView = UIView(frame: someRect)
-        
-        let backButton = UIButton(type: .system);
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(UIColor(red: 0.0, green: 0.478431, blue: 1, alpha: 1), for: .normal)
-        backButton.addTarget(self, action: #selector(backButton(sender:)), for: UIControl.Event.touchDown)
-        backButton.sizeToFit()
-        buttonView.addSubview(backButton)
-        
-        self.view.addSubview(buttonView)
-        self.view.bringSubviewToFront(buttonView)
-    }
     func manageLifeTotals(){
         lifeTotalP1 = lifeTotalT
         lifeTotalP2 = lifeTotalT
@@ -293,15 +281,22 @@ class LifeViewController3Players: UIViewController{
         bottomFullView.backgroundColor = dividerColor
         bottomFullView.restorationIdentifier = "divider"
         
+        var image = UIImage() ?? UIImage(named: "Home Icon - Dark")
+        if (UserDefaults.standard.bool(forKey: "darkThemeIsOn")){
+            image = UIImage(named: "Home Icon - Dark")
+        }
+        else{
+            image = UIImage(named: "Home Icon - Light 1")
+        }
+        
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: view.center.x-25, y: view.center.y-25, width: 50, height: 50)
         settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
         settingsButton.clipsToBounds = true
         settingsButton.restorationIdentifier = "settings"
         settingsButton.backgroundColor = .clear
-        let image = UIImage(named: "gear") as UIImage?
         settingsButton.setImage(image, for: .normal)
-        settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(backButton(sender:)), for: .touchUpInside)
         
         self.view.addSubview(leftFullView)
         self.view.addSubview(rightFullView)
@@ -312,11 +307,11 @@ class LifeViewController3Players: UIViewController{
         self.view.addSubview(middleView)
         self.view.addSubview(settingsButton)
     }
-    @objc func settingsPressed(sender: UIButton){
-        let settingsVC = storyboard?.instantiateViewController(withIdentifier: "settings") as! SettingsView
-        settingsVC.passDataBackDelegate = self
-        present(settingsVC, animated: true, completion: nil)
-    }
+//    @objc func settingsPressed(sender: UIButton){
+//        let settingsVC = storyboard?.instantiateViewController(withIdentifier: "settings") as! SettingsView
+//        settingsVC.passDataBackDelegate = self
+//        present(settingsVC, animated: true, completion: nil)
+//    }
     @objc func backButton(sender: UIButton) {
         let alert = UIAlertController(title: "Confirm", message: "Quit to the main menu?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { action in
