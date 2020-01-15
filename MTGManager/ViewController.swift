@@ -18,10 +18,18 @@ class ViewController: UIViewController, UITextFieldDelegate{
     var textColorLightYellow: UIColor! = UIColor(red: 255/255, green: 228/255, blue: 122/255, alpha: 1)
     var backgroundGray: UIColor! = UIColor(red: 88/255, green: 85/255, blue: 89/255, alpha: 1)
     
+    var dividerColor: UIColor! = .gray
+    var textColor: UIColor! = UIColor(red: 32/255, green: 178/255, blue: 170/255, alpha: 1)
+    var backgroundColor: UIColor! = .darkGray
+    var fontSize: CGFloat! = 75.0
+    var playerNameColor: UIColor! = .black
+    
+    @IBOutlet weak var verticalspacetotop: NSLayoutConstraint!
+    @IBOutlet var theView: UIView!
+    
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var numPlayersView: UIView!
     @IBOutlet weak var numLifeView: UIView!
-    @IBOutlet weak var lifeView: UIView!
     @IBOutlet weak var startButtonView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -43,14 +51,17 @@ class ViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var numberPlayerControl : UISegmentedControl!;
     @IBOutlet weak var lifeTotalControl: UISegmentedControl!
     
-    
-    
     @IBAction func playersChanged(sender : UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             numOfPlayers = 1;
             playerOneText.isHidden = false
             playerOneLabel.isHidden = false
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.5, animations: {
+                self.verticalspacetotop.constant = 168 //starts at 168
+                self.view.layoutIfNeeded()
+            })
             
             playerTwoText.isHidden = true
             playerTwoLabel.isHidden = true
@@ -66,6 +77,11 @@ class ViewController: UIViewController, UITextFieldDelegate{
             playerOneLabel.isHidden = false
             playerTwoText.isHidden = false
             playerTwoLabel.isHidden = false
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.5, animations: {
+                self.verticalspacetotop.constant = 233 //there is 65 space between the other views, add 65 each time
+                self.view.layoutIfNeeded()
+            })
             
             playerThreeText.isHidden = true
             playerThreeLabel.isHidden = true
@@ -79,6 +95,10 @@ class ViewController: UIViewController, UITextFieldDelegate{
             playerThreeLabel.isHidden = false
             playerTwoText.isHidden = false
             playerTwoLabel.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: {
+                self.verticalspacetotop.constant = 298
+                self.view.layoutIfNeeded()
+            })
             
             playerFourText.isHidden = true
             playerFourLabel.isHidden = true
@@ -92,6 +112,10 @@ class ViewController: UIViewController, UITextFieldDelegate{
             playerThreeLabel.isHidden = false
             playerFourText.isHidden = false
             playerFourLabel.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: {
+                self.verticalspacetotop.constant = 363
+                self.view.layoutIfNeeded()
+            })
             
             playerFiveText.isHidden = true
             playerFiveLabel.isHidden = true
@@ -105,36 +129,12 @@ class ViewController: UIViewController, UITextFieldDelegate{
             playerFourLabel.isHidden = false
             playerFiveText.isHidden = false
             playerFiveLabel.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: {
+                self.verticalspacetotop.constant = 428
+                self.view.layoutIfNeeded()
+            })
         default:
             break;
-        }
-    }
-    @IBAction func darkThemeOn(_ sender: UISwitch) {
-        if (sender.isOn == true){
-            UserDefaults.standard.set(dividerYellow, forKey: "playerNameColor")
-            UserDefaults.standard.set(textColorLightYellow, forKey: "textColor")
-            UserDefaults.standard.set(backgroundGray, forKey: "previewView")
-            UserDefaults.standard.set(dividerYellow, forKey: "dividerColor")
-            UserDefaults.standard.set(true, forKey: "darkThemeIsOn")
-            
-//            startButtonView.backgroundColor = dividerYellow
-//            contentView.backgroundColor = backgroundGray
-//            numPlayersView.backgroundColor = dividerYellow
-//            numLifeView.backgroundColor = dividerYellow
-//            scrollView.backgroundColor = dividerYellow
-        }
-        else{
-            UserDefaults.standard.set(.white, forKey: "textColor")
-            UserDefaults.standard.set(backgroundGray, forKey: "dividerColor")
-            UserDefaults.standard.set(backgroundGray, forKey: "playerNameColor")
-            UserDefaults.standard.set(dividerYellow, forKey: "previewView")
-            UserDefaults.standard.set(false, forKey: "darkThemeIsOn")
-            
-//            startButtonView.backgroundColor = backgroundGray
-//            contentView.backgroundColor = dividerYellow
-//            numPlayersView.backgroundColor = backgroundGray
-//            numLifeView.backgroundColor = backgroundGray
-//            scrollView.backgroundColor = backgroundGray
         }
     }
     @IBAction func lifeChanged(sender: UISegmentedControl) {
@@ -153,37 +153,77 @@ class ViewController: UIViewController, UITextFieldDelegate{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadUserDefaults()
+        updateColors()
+        
         playerOneText.delegate = self
         playerTwoText.delegate = self
         playerThreeText.delegate = self
         playerFourText.delegate = self
         playerFiveText.delegate = self
 
-        loadUserDefaults()
         self.setupToHideKeyboardOnTapOnView()
+        UIApplication.shared.isIdleTimerDisabled = true
         
+        scrollView.backgroundColor = backgroundColor
+        contentView.backgroundColor = backgroundColor
+        theView.backgroundColor = backgroundColor
+        numPlayersView.backgroundColor = dividerColor
+        numLifeView.backgroundColor = dividerColor
+        startButtonView.backgroundColor = dividerColor
+        
+
         scrollView.keyboardDismissMode = .onDrag
+
+        numPlayersView.layer.cornerRadius = 10.0
+        numPlayersView.layer.masksToBounds = true
         
-        contentView.backgroundColor = backgroundGray
-        numPlayersView.backgroundColor = dividerYellow
-        numLifeView.backgroundColor = dividerYellow
-        lifeView.backgroundColor = dividerYellow
+        numLifeView.layer.cornerRadius = 10.0
+        numLifeView.layer.masksToBounds = true
+        
+        startButtonView.layer.cornerRadius = 10.0
+        startButtonView.layer.masksToBounds = true
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxLength = 15
+        let maxLength = 8
         let currentString: NSString = textField.text! as NSString
         let newString: NSString =
             currentString.replacingCharacters(in: range, with: string) as NSString
         return newString.length <= maxLength
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        loadUserDefaults()
+    }
     func loadUserDefaults(){
-        UserDefaults.standard.set(dividerYellow, forKey: "playerNameColor")
-        UserDefaults.standard.set(textColorLightYellow, forKey: "textColor")
-        UserDefaults.standard.set(backgroundGray, forKey: "previewView")
-        UserDefaults.standard.set(dividerYellow, forKey: "dividerColor")
+//        if traitCollection.userInterfaceStyle == .light {
+//            print("light")
+            UserDefaults.standard.set(textColorLightYellow, forKey: "textColor")
+            UserDefaults.standard.set(dividerYellow, forKey: "dividerColor")
+            UserDefaults.standard.set(dividerYellow, forKey: "playerNameColor")
+            UserDefaults.standard.set(backgroundGray, forKey: "previewView")
+            UserDefaults.standard.set(true, forKey: "darkThemeIsOn")
+//        } else {
+//            print("dark")
+//            UserDefaults.standard.set(.white, forKey: "textColor")
+//            UserDefaults.standard.set(backgroundGray, forKey: "dividerColor")
+//            UserDefaults.standard.set(backgroundGray, forKey: "playerNameColor")
+//            UserDefaults.standard.set(dividerYellow, forKey: "previewView")
+//            UserDefaults.standard.set(false, forKey: "darkThemeIsOn")
+//        }
         UserDefaults.standard.set(self.view.frame.width*0.350, forKey: "fontSize") //font size scalability based on screen width... play with this more, only 3rd attempt
         UserDefaults.standard.set(true, forKey: "keepScreenOn")
-        UserDefaults.standard.set(true, forKey: "darkThemeIsOn")
+    }
+    func updateColors(){
+        backgroundColor = UserDefaults.standard.color(forKey: "previewView")
+        dividerColor = UserDefaults.standard.color(forKey: "dividerColor")
+        fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
+        playerNameColor = UserDefaults.standard.color(forKey: "playerNameColor")
+        textColor = UserDefaults.standard.color(forKey: "textColor")
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -246,5 +286,15 @@ extension UIViewController
     @objc func dismissKeyboard()
     {
         view.endEditing(true)
+    }
+}
+class PassThroughView: UIView {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        for subview in subviews {
+            if !subview.isHidden && subview.isUserInteractionEnabled && subview.point(inside: convert(point, to: subview), with: event) {
+                return true
+            }
+        }
+        return false
     }
 }

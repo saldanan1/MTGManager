@@ -17,7 +17,6 @@ class LifeViewController1Player: UIViewController{
     var fontSize: CGFloat! = 75.0
     var viewStayOn: Bool!
     var playerNameColor: UIColor! = .black
-    var previouslife: Bool = true
     
     var playerOneName: String! = ""
     @IBOutlet weak var Player1Label: UILabel!
@@ -26,10 +25,11 @@ class LifeViewController1Player: UIViewController{
     @IBOutlet weak var minus: UILabel!
     
     override func viewDidLoad() {
+        UIApplication.shared.isIdleTimerDisabled = true
         manageLifeTotals()
         manageView()
-        refresh()
         loadUserDefaults()
+        refresh()
         loadDividers()
         handlePlusMinus()
     }
@@ -60,12 +60,13 @@ class LifeViewController1Player: UIViewController{
     loadChangeLifeTotalButtons(cgX: 0, cgY: 0, cgWidth: view.frame.width/2, cgHeight: view.frame.height, buttonName: 0, playerNumber: "Player 1")
         
     Player1NameLabel.restorationIdentifier = "playerNameText"
-    Player1NameLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 25)
+    Player1NameLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 20)
     Player1NameLabel.textColor = UserDefaults.standard.color(forKey: "playerNameColor")
     Player1NameLabel.text = playerOneName
     Player1NameLabel.sizeToFit()
     Player1NameLabel.center.x = self.view.center.x
     Player1NameLabel.center.y = self.view.frame.height - self.view.frame.height/16
+    Player1NameLabel.backgroundColor = .clear
     
     self.view.bringSubviewToFront(Player1NameLabel)
     
@@ -83,6 +84,14 @@ class LifeViewController1Player: UIViewController{
         self.view.addSubview(genericButton)
     }
     @objc func lifeChangePress(sender: UIButton) {
+            UIView.transition(with: sender, duration: 0.1, options: .curveEaseInOut, animations: {
+                sender.backgroundColor = .black
+                sender.setTitle("", for: .normal)
+                sender.setTitleColor(.white, for: .normal)
+                sender.backgroundColor = self.backgroundColor
+    
+                self.view.bringSubviewToFront(self.Player1Label)
+            })
             if (sender.tag == 1){
                 if (sender.restorationIdentifier == "Player 1"){
                     lifeTotalP1 += 1
@@ -139,49 +148,53 @@ class LifeViewController1Player: UIViewController{
         
     }
     func loadDividers(){
-            let leftFullRect = CGRect(x: -10, y: 0, width:20, height: view.frame.height)
-            let leftFullView = UIView(frame: leftFullRect)
-            leftFullView.backgroundColor = dividerColor
-            leftFullView.restorationIdentifier = "divider"
-            
-            let rightFullRect = CGRect(x: view.frame.width - 10, y: 0, width:20, height: view.frame.height)
-            let rightFullView = UIView(frame: rightFullRect)
-            rightFullView.backgroundColor = dividerColor
-            rightFullView.restorationIdentifier = "divider"
-            
-            let topFullRect = CGRect(x: 0, y: -10, width: view.frame.width, height: 20)
-            let topFullView = UIView(frame: topFullRect)
-            topFullView.backgroundColor = dividerColor
-            topFullView.restorationIdentifier = "divider"
-            
-            let bottomFullRect = CGRect(x: 0, y: view.frame.height-10, width: view.frame.width, height: 20)
-            let bottomFullView = UIView(frame: bottomFullRect)
-            bottomFullView.backgroundColor = dividerColor
-            bottomFullView.restorationIdentifier = "divider"
-            
-            var image = UIImage() ?? UIImage(named: "Home Icon - Dark")
-            if (UserDefaults.standard.bool(forKey: "darkThemeIsOn")){
-                image = UIImage(named: "Home Icon - Dark")
-            }
-            else{
-                image = UIImage(named: "Home Icon - Light 1")
-            }
-            
-            let settingsButton = UIButton(type: .custom)
+        let leftFullRect = CGRect(x: -5, y: 0, width:20, height: view.frame.height)
+        let leftFullView = UIView(frame: leftFullRect)
+        leftFullView.backgroundColor = dividerColor
+        leftFullView.restorationIdentifier = "divider"
+        leftFullView.layer.cornerRadius = 0
+    
+        let rightFullRect = CGRect(x: view.frame.width - 15, y: 0, width:20, height: view.frame.height)
+        let rightFullView = UIView(frame: rightFullRect)
+        rightFullView.backgroundColor = dividerColor
+        rightFullView.restorationIdentifier = "divider"
+        rightFullView.layer.cornerRadius = 0
+        
+        let topFullRect = CGRect(x: 0, y: -5, width: view.frame.width, height: 20)
+        let topFullView = UIView(frame: topFullRect)
+        topFullView.backgroundColor = dividerColor
+        topFullView.restorationIdentifier = "divider"
+        topFullView.layer.cornerRadius = 0
+        
+        let bottomFullRect = CGRect(x: 0, y: view.frame.height-15, width: view.frame.width, height: 20)
+        let bottomFullView = UIView(frame: bottomFullRect)
+        bottomFullView.backgroundColor = dividerColor
+        bottomFullView.restorationIdentifier = "divider"
+        bottomFullView.layer.cornerRadius = 0
+        
+        var image = UIImage() ?? UIImage(named: "Home Icon - Dark")
+        if (UserDefaults.standard.bool(forKey: "darkThemeIsOn")){
+            image = UIImage(named: "Home Icon - Dark")
+        }
+        else{
+            image = UIImage(named: "Home Icon - Light 1")
+        }
+        
+        let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: view.center.x-25, y: view.frame.height/16, width: 50, height: 50)
-            settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
-            settingsButton.clipsToBounds = true
-            settingsButton.restorationIdentifier = "settings"
-            settingsButton.backgroundColor = .clear
-            settingsButton.setImage(image, for: .normal)
-            settingsButton.addTarget(self, action: #selector(backButton(sender:)), for: .touchUpInside)
-            
-            self.view.addSubview(leftFullView)
-            self.view.addSubview(rightFullView)
-            self.view.addSubview(topFullView)
-            self.view.addSubview(bottomFullView)
-            
-            self.view.addSubview(settingsButton)
+        settingsButton.layer.cornerRadius = 0.5 * settingsButton.bounds.size.width
+        settingsButton.clipsToBounds = true
+        settingsButton.restorationIdentifier = "settings"
+        settingsButton.backgroundColor = .clear
+        settingsButton.setImage(image, for: .normal)
+        settingsButton.addTarget(self, action: #selector(backButton(sender:)), for: .touchUpInside)
+        
+        self.view.addSubview(leftFullView)
+        self.view.addSubview(rightFullView)
+        self.view.addSubview(topFullView)
+        self.view.addSubview(bottomFullView)
+        
+        self.view.addSubview(settingsButton)
         }
         @objc func backButton(sender: UIButton) {
             let alert = UIAlertController(title: "Confirm", message: "Quit to the main menu?", preferredStyle: UIAlertController.Style.alert)

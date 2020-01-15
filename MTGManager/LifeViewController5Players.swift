@@ -49,6 +49,7 @@ class LifeViewController5Players: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isIdleTimerDisabled = true
         manageLifeTotals()
         manageLifeChangeButtons()
         loadUserDefaults()
@@ -61,6 +62,98 @@ class LifeViewController5Players: UIViewController{
         if (viewStayOn == true){
             UIApplication.shared.isIdleTimerDisabled = true
         }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+           chooseFirstPlayer()
+       }
+    func chooseFirstPlayer(){
+        let number = Int.random(in: 1 ..< 6)
+        
+        var playerLabel: UILabel = self.Player1Label
+        var playerFirst: Int = 0
+        playerFirst = number
+        
+        let playerNameString = "Player " + String(playerFirst)
+        let playerDelay: String = ""
+        
+        if (playerFirst == 1){
+            playerLabel = self.Player1Label
+        }
+        else if (playerFirst == 2){
+            playerLabel = self.Player2Label
+        }
+        else if (playerFirst == 3){
+            playerLabel = self.Player3Label
+        }
+        else if (playerFirst == 4){
+            playerLabel = self.Player4Label
+        }
+        else{
+            playerLabel = self.Player5Label
+        }
+        
+        for case let button as UIButton in self.view.subviews{
+            if (button.restorationIdentifier == playerNameString){
+                UIView.transition(with: button, duration: 1.25, options: .curveEaseInOut, animations: {
+                    button.backgroundColor = UIColor(red: 255/255, green: 241/255, blue: 208/255, alpha: 1.0)
+                    button.setTitle("", for: .normal)
+                    button.setTitleColor(.white, for: .normal)
+                    button.backgroundColor = self.backgroundColor
+
+                    self.view.bringSubviewToFront(self.Player1Label)
+                    self.view.bringSubviewToFront(self.Player2Label)
+                    self.view.bringSubviewToFront(self.Player3Label)
+                    self.view.bringSubviewToFront(self.Player4Label)
+                    self.view.bringSubviewToFront(self.Player5Label)
+                })
+                
+                let timer : Timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(playerDelayTimer), userInfo: playerLabel, repeats: false)
+                UIView.transition(with: playerLabel, duration: 1.25, options: [.curveEaseInOut], animations: {
+                    playerLabel.text = String("You go first!");
+                    playerLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 35)
+                    playerLabel.sizeToFit()
+                    if (playerFirst == 1){
+                        playerLabel.center = CGPoint(x: self.view.frame.width - self.view.frame.width/4, y: self.view.frame.height/6)
+                    }
+                    else if (playerFirst == 2){
+                        playerLabel.center = CGPoint(x: self.view.frame.width - self.view.frame.width/4, y: self.view.frame.height/2)
+                    }
+                    else if (playerFirst == 3){
+                        playerLabel.center = CGPoint(x: self.view.frame.width - self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/6)
+                    }
+                    else if (playerFirst == 4){
+                        playerLabel.center = CGPoint(x: self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/4)
+                    }
+                    else{
+                        playerLabel.center = CGPoint(x: self.view.frame.width/4, y: self.view.frame.height/4)
+                    }
+                }, completion: nil)
+            }
+        }
+        
+    }
+    @objc func playerDelayTimer(timer: Timer){
+        var playerLabel = timer.userInfo as! UILabel
+        UIView.transition(with: playerLabel, duration: 1.25, options: [.curveEaseInOut], animations: {
+            playerLabel.text = String(self.lifeTotalP2);
+            playerLabel.font = UIFont(name: "DevanagariSangamMN", size: self.fontSize)
+            playerLabel.sizeToFit()
+            if (playerLabel == self.Player1Label){
+                playerLabel.center = CGPoint(x: self.view.frame.width - self.view.frame.width/4, y: self.view.frame.height/6)
+            }
+            else if (playerLabel == self.Player2Label){
+                playerLabel.center = CGPoint(x: self.view.frame.width - self.view.frame.width/4, y: self.view.frame.height/2)
+            }
+            else if (playerLabel == self.Player3Label){
+                playerLabel.center = CGPoint(x: self.view.frame.width - self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/6)
+            }
+            else if (playerLabel == self.Player4Label){
+                playerLabel.center = CGPoint(x: self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/4)
+            }
+            else{
+                playerLabel.center = CGPoint(x: self.view.frame.width/4, y: self.view.frame.height/4)
+            }
+        }, completion: nil)
     }
     func loadUserDefaults(){
         backgroundColor = UserDefaults.standard.color(forKey: "previewView")
@@ -79,40 +172,40 @@ class LifeViewController5Players: UIViewController{
         for case let text as UILabel in self.view.subviews{
             if (text.accessibilityIdentifier == "plusMinusButtons"){
                 text.textColor = textColor
-                text.font = UIFont(name:"HelveticaNeue-Bold", size: 45)
+                text.font = UIFont(name:"HelveticaNeue-Bold", size: 40)
                 text.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
                 self.view.bringSubviewToFront(text)
             }
         }
-        plusTopLeft.center.x = 7*(self.view.frame.width/24) //halfway between 1/4 and 1/3
-        plusTopLeft.center.y = self.view.center.y - self.view.frame.height/8
+        plusTopLeft.center.x = self.view.frame.width/10
+        plusTopLeft.center.y = self.view.center.y - self.view.frame.height/16
         
-        minusTopLeft.center.x = 7*(self.view.frame.width/24)
-        minusTopLeft.center.y = self.view.frame.height/8
+        minusTopLeft.center.x = self.view.frame.width/10
+        minusTopLeft.center.y = self.view.frame.height/16
         
-        plusBottomLeft.center.x = 7*(self.view.frame.width/24)
-        plusBottomLeft.center.y = self.view.frame.height - self.view.frame.height/8
+        plusBottomLeft.center.x = self.view.frame.width/10
+        plusBottomLeft.center.y = self.view.frame.height - self.view.frame.height/12
         
-        minusBottomLeft.center.x = 7*(self.view.frame.width/24)
-        minusBottomLeft.center.y = self.view.center.y + self.view.frame.height/8
+        minusBottomLeft.center.x = self.view.frame.width/10
+        minusBottomLeft.center.y = self.view.center.y + self.view.frame.height/16
         
-        plusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
-        plusTopRight.center.y = (self.view.frame.height/20)
+        plusTopRight.center.x = self.view.frame.width - self.view.frame.width/14
+        plusTopRight.center.y = self.view.frame.height/20
         
-        minusTopRight.center.x = self.view.frame.width - self.view.frame.width/4
+        minusTopRight.center.x = self.view.frame.width - self.view.frame.width/14
         minusTopRight.center.y = self.view.center.y - 5*(self.view.frame.height/24)
         
-        plusMiddleRight.center.x = self.view.center.x + self.view.frame.width/4
+        plusMiddleRight.center.x = self.view.frame.width - self.view.frame.width/14
         plusMiddleRight.center.y = self.view.center.y - self.view.frame.height/8
         
-        minusMiddleRight.center.x = self.view.center.x + self.view.frame.width/4
+        minusMiddleRight.center.x = self.view.frame.width - self.view.frame.width/14
         minusMiddleRight.center.y = self.view.center.y + self.view.frame.height/8
         
-        plusBottomRight.center.x = self.view.center.x + self.view.frame.width/4
+        plusBottomRight.center.x = self.view.frame.width - self.view.frame.width/14
         plusBottomRight.center.y = self.view.center.y + self.view.frame.height/5
         
-        minusBottomRight.center.x = self.view.frame.width - self.view.frame.width/4
-        minusBottomRight.center.y = self.view.frame.height - self.view.frame.height/24
+        minusBottomRight.center.x = self.view.frame.width - self.view.frame.width/14
+        minusBottomRight.center.y = self.view.frame.height - self.view.frame.height/20
     }
     func refresh(){
         
@@ -123,7 +216,7 @@ class LifeViewController5Players: UIViewController{
         Player5Label.text = String(lifeTotalP5)
         
         for case let button as UIButton in self.view.subviews {
-            if (button.restorationIdentifier != "settings"){
+            if (button.restorationIdentifier != "settings" && button.restorationIdentifier != "playerNameText"){
                 button.backgroundColor = backgroundColor
             }
             if (button.restorationIdentifier == "playerNameText"){
@@ -205,26 +298,26 @@ class LifeViewController5Players: UIViewController{
             genericNameButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         }
         genericNameButton.restorationIdentifier = "playerNameText"
-        genericNameButton.titleLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 25)
+        genericNameButton.titleLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 20)
         genericNameButton.setTitleColor(playerNameColor, for: .normal)
         genericNameButton.setTitle(playerName, for: .normal)
-        genericNameButton.backgroundColor = dividerColor
+        genericNameButton.backgroundColor = .clear
         genericNameButton.sizeToFit()
         
         self.view.addSubview(genericNameButton)
     }
     @objc func lifeChangePress(sender: UIButton) {
-//        UIView.transition(with: sender, duration: 0.05, options: .curveEaseInOut, animations: {
-//            sender.backgroundColor = .black
-//            sender.setTitle("", for: .normal)
-//            sender.setTitleColor(.white, for: .normal)
-//            sender.backgroundColor = self.backgroundColor
-//            self.view.bringSubviewToFront(self.Player1Label)
-//            self.view.bringSubviewToFront(self.Player2Label)
-//            self.view.bringSubviewToFront(self.Player3Label)
-//            self.view.bringSubviewToFront(self.Player4Label)
-//            self.view.bringSubviewToFront(self.Player5Label)
-//        })
+        UIView.transition(with: sender, duration: 0.1, options: .curveEaseInOut, animations: {
+            sender.backgroundColor = .black
+            sender.setTitle("", for: .normal)
+            sender.setTitleColor(.white, for: .normal)
+            sender.backgroundColor = self.backgroundColor
+            self.view.bringSubviewToFront(self.Player1Label)
+            self.view.bringSubviewToFront(self.Player2Label)
+            self.view.bringSubviewToFront(self.Player3Label)
+            self.view.bringSubviewToFront(self.Player4Label)
+            self.view.bringSubviewToFront(self.Player5Label)
+        })
         if (sender.tag == 1){
             if (sender.restorationIdentifier == "Player 1"){
                 lifeTotalP1 += 1
@@ -316,43 +409,43 @@ class LifeViewController5Players: UIViewController{
     }
     
     func loadDividers(){
-        let middleRect = CGRect(x: (view.frame.width / 2)-5, y: 0, width: 10, height: view.frame.height)
+        let middleRect = CGRect(x: (view.frame.width / 2)-3.75, y: 0, width: 7.5, height: view.frame.height)
         let middleView = UIView(frame: middleRect)
         middleView.backgroundColor = dividerColor
         middleView.restorationIdentifier = "divider"
         
-        let leftSideRect = CGRect(x: 0, y: (view.frame.height/2)-5, width: view.frame.width/2, height: 10)
+        let leftSideRect = CGRect(x: 0, y: (view.frame.height/2)-3.75, width: view.frame.width/2, height: 7.5)
         let leftSideView = UIView(frame: leftSideRect)
         leftSideView.backgroundColor = dividerColor
         leftSideView.restorationIdentifier = "divider"
         
-        let rightSideFirstRect = CGRect(x: view.frame.width/2, y: (view.frame.height/3)-5, width: view.frame.width/2, height: 10)
+        let rightSideFirstRect = CGRect(x: view.frame.width/2, y: (view.frame.height/3)-3.75, width: view.frame.width/2, height: 7.5)
         let rightSideFirstView = UIView(frame: rightSideFirstRect)
         rightSideFirstView.backgroundColor = dividerColor
         rightSideFirstView.restorationIdentifier = "divider"
         
-        let rightSideSecondRect = CGRect(x: view.frame.width/2, y: ((2*view.frame.height)/3)-5, width: view.frame.width/2, height: 10)
+        let rightSideSecondRect = CGRect(x: view.frame.width/2, y: ((2*view.frame.height)/3)-3.75, width: view.frame.width/2, height: 7.5)
         let rightSideSecondView = UIView(frame: rightSideSecondRect)
         rightSideSecondView.backgroundColor = dividerColor
         rightSideSecondView.restorationIdentifier = "divider"
         
-        let leftFullRect = CGRect(x: -10, y: 0, width:20, height: view.frame.height)
+        let leftFullRect = CGRect(x: -5, y: 0, width:20, height: view.frame.height)
         let leftFullView = UIView(frame: leftFullRect)
         
         leftFullView.backgroundColor = dividerColor
         leftFullView.restorationIdentifier = "divider"
         
-        let rightFullRect = CGRect(x: view.frame.width - 10, y: 0, width:20, height: view.frame.height)
+        let rightFullRect = CGRect(x: view.frame.width - 15, y: 0, width:20, height: view.frame.height)
         let rightFullView = UIView(frame: rightFullRect)
         rightFullView.backgroundColor = dividerColor
         rightFullView.restorationIdentifier = "divider"
         
-        let topFullRect = CGRect(x: 0, y: -10, width: view.frame.width, height: 20)
+        let topFullRect = CGRect(x: 0, y: -5, width: view.frame.width, height: 20)
         let topFullView = UIView(frame: topFullRect)
         topFullView.backgroundColor = dividerColor
         topFullView.restorationIdentifier = "divider"
         
-        let bottomFullRect = CGRect(x: 0, y: view.frame.height-10, width: view.frame.width, height: 20)
+        let bottomFullRect = CGRect(x: 0, y: view.frame.height-15, width: view.frame.width, height: 20)
         let bottomFullView = UIView(frame: bottomFullRect)
         bottomFullView.backgroundColor = dividerColor
         bottomFullView.restorationIdentifier = "divider"
